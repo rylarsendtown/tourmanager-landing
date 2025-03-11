@@ -12,20 +12,20 @@
       color: #fff;
       height: 100vh;
       text-transform: uppercase;
-      position: relative; /* Allows absolute positioning of the logo block */
+      position: relative; /* Allows absolute positioning for multiple elements */
     }
 
-    /* Container sized at ~80% width, placed using golden ratio from the top */
+    /* --- TOURMANAGER API BLOCK (unchanged) --- */
     .title-container {
       position: absolute;
-      top: 38%;         /* Golden ratio offset: ~38% from the top */
+      bottom: 5%;
       right: 5%;
       width: 80%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       font-weight: bold;
-      font-size: 10vw;  /* Ensures the text covers ~80% of the viewport width */
+      font-size: 10vw;  /* ~80% of viewport width */
       letter-spacing: -1px;
       line-height: 0.75;
       text-align: right;
@@ -39,7 +39,6 @@
       width: 100%;
     }
 
-    /* Use em so the bar scales proportionally with parent font-size */
     .bar {
       width: 0.9em;
       height: 0.16em;
@@ -47,83 +46,70 @@
       margin-right: 0.06em;
     }
 
-    /* 'API' text inherits font-size from .title-container */
     .api {
       font-size: 1em;
       font-weight: bold;
     }
 
-    .content-wrapper {
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      flex-direction: column;
-      overflow: hidden;
-      width: 100%;
-      margin-top: 0.5em; /* Scaled in em to preserve proportions */
-    }
-
-    /* Scaled content text in em for consistent relative sizing */
-    .content {
-      font-size: 0.4em; /* ~2vw was ~40% of 5vw in original code */
+    /* --- TAGLINE (NEW) --- */
+    .tagline {
+      position: absolute;
+      top: 30%;            /* ~Golden ratio for top-third placement */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3vw;      /* Adjust to taste */
       font-weight: normal;
-      text-align: right;
+      text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
+      letter-spacing: 0.15em;  /* Increased kerning for airy feel */
       opacity: 0;
       transition: opacity 4s ease-in-out;
       visibility: hidden;
-      width: 100%;
       white-space: nowrap;
-      color: #bbb; /* Lighter grey for final state */
-    }
-
-    .content.visible {
-      opacity: 1;
-      visibility: visible;
+      color: #bbb;
       animation: shimmer 5s ease-in-out, fadeIn 4s ease-in;
     }
 
-    @keyframes shimmer {
-      0% {
-        color: #fff;
-      }
-      100% {
-        color: #bbb; /* Ensures final text color is solid, not gradient */
-      }
+    /* When visible, fully fade in */
+    .tagline.visible {
+      opacity: 1;
+      visibility: visible;
     }
 
+    /* Same shimmer/fadeIn animations as before */
+    @keyframes shimmer {
+      0%   { color: #fff; }
+      100% { color: #bbb; }
+    }
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
+      to   { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="title-container" onclick="toggleContent()">
+  <!-- TOURMANAGER API block (unchanged) -->
+  <div class="title-container">
     <div>TourManager</div>
     <div class="bar-api">
       <div class="bar"></div>
       <div class="api">API</div>
     </div>
-    <div class="content-wrapper">
-      <div class="content" id="content">
-        orchestrating concert data
-      </div>
-    </div>
+  </div>
+
+  <!-- New tagline block (appears after delay) -->
+  <div class="tagline" id="tagline">
+    orchestrating concert data
   </div>
 
   <script>
-    function toggleContent() {
-      const content = document.getElementById("content");
-      if (content.classList.contains("visible")) {
-        content.style.transition = "opacity 1s ease-out";
-        content.classList.remove("visible");
-      } else {
-        content.style.transition = "opacity 4s ease-in";
-        content.classList.add("visible");
-      }
-    }
+    // On page load, reveal the tagline after a short delay
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("tagline").classList.add("visible");
+      }, 1000); // 1-second delay; adjust as desired
+    });
   </script>
 </body>
 </html>
