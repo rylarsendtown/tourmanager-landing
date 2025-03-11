@@ -1,117 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TourManagerAPI</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
-            background: #444;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-transform: uppercase;
-            flex-direction: column;
-        }
-        .title-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            font-weight: bold;
-            font-size: 5vw;
-            letter-spacing: -1px;
-            line-height: 0.75;
-            text-align: right;
-            width: fit-content;
-            cursor: pointer;
-            position: relative;
-        }
-        .bar-api {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-        }
-        .bar {
-            width: 4.5vw;
-            height: 0.8vw;
-            background: black;
-            margin-right: 0.3vw;
-        }
-        .api {
-            font-size: 5vw;
-            font-weight: bold;
-        }
-        .content-wrapper {
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-            flex-direction: column;
-            overflow: hidden;
-            width: fit-content;
-            margin-top: 0.5vw;
-        }
-        .content {
-            font-size: 2vw;
-            font-weight: normal;
-            text-align: right;
-            line-height: 1.2;
-            text-transform: lowercase;
-            opacity: 0;
-            transition: opacity 4s ease-in-out;
-            visibility: hidden;
-            width: 100%;
-            white-space: nowrap;
-            color: #bbb; /* Lighter grey for final state */
-        }
-        .content.visible {
-            opacity: 1;
-            visibility: visible;
-            animation: shimmer 5s ease-in-out, fadeIn 4s ease-in;
-        }
-        @keyframes shimmer {
-            0% {
-                color: #fff;
-            }
-            100% {
-                color: #bbb; /* Ensures final text color is solid, not gradient */
-            }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TourManagerAPI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background: #444;
+      color: #fff;
+      height: 100vh;
+      text-transform: uppercase;
+      position: relative; /* Allows absolute positioning of the logo block */
+    }
+
+    /* Container sized at ~80% width and anchored bottom-right */
+    .title-container {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-weight: bold;
+      font-size: 10vw; /* Scale up so text covers ~80% of the viewport */
+      letter-spacing: -1px;
+      line-height: 0.75;
+      text-align: right;
+      cursor: pointer;
+    }
+
+    /* Keep bar/API at the right edge, but use em so it scales with .title-container */
+    .bar-api {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    /* Bar width/height in em to preserve the ratio as the font-size changes */
+    .bar {
+      width: 0.9em;
+      height: 0.16em;
+      background: black;
+      margin-right: 0.06em;
+    }
+
+    /* API text same size as the parent’s current font-size */
+    .api {
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    /* Content wrapper stays the same, except we’ll scale spacing in em */
+    .content-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+      margin-top: 0.5em; /* scaled in em now */
+    }
+
+    /* Content also scaled in em to keep the same relative size to the heading */
+    .content {
+      font-size: 0.4em; /* ~2vw was ~40% of 5vw originally */
+      font-weight: normal;
+      text-align: right;
+      line-height: 1.2;
+      text-transform: lowercase;
+      opacity: 0;
+      transition: opacity 4s ease-in-out;
+      visibility: hidden;
+      width: 100%;
+      white-space: nowrap;
+      color: #bbb; /* Lighter grey for final state */
+    }
+
+    .content.visible {
+      opacity: 1;
+      visibility: visible;
+      animation: shimmer 5s ease-in-out, fadeIn 4s ease-in;
+    }
+
+    @keyframes shimmer {
+      0% {
+        color: #fff;
+      }
+      100% {
+        color: #bbb; /* Ensures final text color is solid, not gradient */
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <div class="title-container" onclick="toggleContent()">
-        <div>TourManager</div>
-        <div class="bar-api">
-            <div class="bar"></div>
-            <div class="api">API</div>
-        </div>
-        <div class="content-wrapper">
-            <div class="content" id="content">
-                orchestrating concert data
-            </div>
-        </div>
+  <div class="title-container" onclick="toggleContent()">
+    <div>TourManager</div>
+    <div class="bar-api">
+      <div class="bar"></div>
+      <div class="api">API</div>
     </div>
-    <script>
-        function toggleContent() {
-            const content = document.getElementById("content");
-            if (content.classList.contains("visible")) {
-                content.style.transition = "opacity 1s ease-out";
-                content.classList.remove("visible");
-            } else {
-                content.style.transition = "opacity 4s ease-in";
-                content.classList.add("visible");
-            }
-        }
-    </script>
+    <div class="content-wrapper">
+      <div class="content" id="content">
+        orchestrating concert data
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleContent() {
+      const content = document.getElementById("content");
+      if (content.classList.contains("visible")) {
+        content.style.transition = "opacity 1s ease-out";
+        content.classList.remove("visible");
+      } else {
+        content.style.transition = "opacity 4s ease-in";
+        content.classList.add("visible");
+      }
+    }
+  </script>
 </body>
 </html>
-
