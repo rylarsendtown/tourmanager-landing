@@ -15,24 +15,23 @@
       position: relative; /* Allows absolute positioning of the logo block */
     }
 
-    /* Container sized at ~80% width and anchored bottom-right */
+    /* Container sized at ~80% width, placed using golden ratio from the top */
     .title-container {
       position: absolute;
-      bottom: 5%;
+      top: 38%;         /* Golden ratio offset: ~38% from the top */
       right: 5%;
       width: 80%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       font-weight: bold;
-      font-size: 10vw; /* Scale up so text covers ~80% of the viewport */
+      font-size: 10vw;  /* Ensures the text covers ~80% of the viewport width */
       letter-spacing: -1px;
       line-height: 0.75;
       text-align: right;
       cursor: pointer;
     }
 
-    /* Keep bar/API at the right edge, but use em so it scales with .title-container */
     .bar-api {
       display: flex;
       align-items: center;
@@ -40,7 +39,7 @@
       width: 100%;
     }
 
-    /* Bar width/height in em to preserve the ratio as the font-size changes */
+    /* Use em so the bar scales proportionally with parent font-size */
     .bar {
       width: 0.9em;
       height: 0.16em;
@@ -48,13 +47,12 @@
       margin-right: 0.06em;
     }
 
-    /* API text same size as the parent’s current font-size */
+    /* 'API' text inherits font-size from .title-container */
     .api {
       font-size: 1em;
       font-weight: bold;
     }
 
-    /* Content wrapper stays the same, except we’ll scale spacing in em */
     .content-wrapper {
       display: flex;
       justify-content: flex-end;
@@ -62,12 +60,12 @@
       flex-direction: column;
       overflow: hidden;
       width: 100%;
-      margin-top: 0.5em; /* scaled in em now */
+      margin-top: 0.5em; /* Scaled in em to preserve proportions */
     }
 
-    /* Content also scaled in em to keep the same relative size to the heading */
+    /* Scaled content text in em for consistent relative sizing */
     .content {
-      font-size: 0.4em; /* ~2vw was ~40% of 5vw originally */
+      font-size: 0.4em; /* ~2vw was ~40% of 5vw in original code */
       font-weight: normal;
       text-align: right;
       line-height: 1.2;
