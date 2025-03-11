@@ -15,7 +15,7 @@
       position: relative; /* Enables absolute positioning for elements */
     }
 
-    /* TOURMANAGER API block (unchanged except for location) */
+    /* --- TOURMANAGER API BLOCK (unchanged except for position/size) --- */
     .title-container {
       position: absolute;
       bottom: 5%;
@@ -25,7 +25,7 @@
       flex-direction: column;
       align-items: flex-end;
       font-weight: bold;
-      font-size: 10vw;
+      font-size: 10vw;  /* ~80% of viewport width */
       letter-spacing: -1px;
       line-height: 0.75;
       text-align: right;
@@ -38,31 +38,29 @@
       justify-content: flex-end;
       width: 100%;
     }
-
     .bar {
       width: 0.9em;
       height: 0.16em;
       background: black;
       margin-right: 0.06em;
     }
-
     .api {
       font-size: 1em;
       font-weight: bold;
     }
 
-    /* Tagline block moved to top third using the golden ratio as a guide */
+    /* --- TAGLINE BLOCK (adjusted for golden-ratio size & top-third placement) --- */
     .tagline {
       position: absolute;
-      top: 38%;  /* Approximately golden ratio placement */
+      top: 32%;               /* Slightly above the true center for top-third emphasis */
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3vw;
+      font-size: 3.82vw;      /* A golden-ratio step down from 10vw */
       font-weight: normal;
       text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
-      letter-spacing: 0.15em;  /* Airier kerning */
+      letter-spacing: 0.2em;  /* Slightly more airy kerning */
       opacity: 0;
       transition: opacity 4s ease-in-out;
       visibility: hidden;
@@ -71,6 +69,7 @@
       animation: shimmer 5s ease-in-out, fadeIn 4s ease-in;
     }
 
+    /* Fades in after delay */
     .tagline.visible {
       opacity: 1;
       visibility: visible;
@@ -87,7 +86,7 @@
   </style>
 </head>
 <body>
-  <!-- TOURMANAGER API block (bottom-right) -->
+  <!-- TOURMANAGER API BLOCK (unchanged) -->
   <div class="title-container">
     <div>TourManager</div>
     <div class="bar-api">
@@ -96,17 +95,17 @@
     </div>
   </div>
 
-  <!-- Tagline block (now at the top third) -->
+  <!-- Tagline (adjusted for golden ratio sizing and top-third placement) -->
   <div class="tagline" id="tagline">
     orchestrating concert data
   </div>
 
   <script>
-    // Automatically reveal the tagline after a short delay when the page loads
+    // Reveal tagline after a short delay on page load
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
-      }, 1000); // 1-second delay; adjust if needed
+      }, 1000); // Adjust delay as needed
     });
   </script>
 </body>
