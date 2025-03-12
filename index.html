@@ -45,12 +45,15 @@
       width: 100%;
     }
     /* Black bar sized with golden ratio in mind */
-    .bar {
-      width: 0.618em;
-      height: 0.1em;
-      background: black;
-      margin-right: 0.06em;
-    }
+.bar {
+  /* Keep the elongated 6.18 ratio for width:height */
+  width: 0.618em;
+  height: 0.1em;
+  background: black;
+  
+  /* Margin so bar + gap = 1em total, bar:margin ~ 1.618:1 */
+  margin-right: 0.382em;
+}
     .api {
       font-size: 1em;
       font-weight: bold;
