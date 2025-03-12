@@ -24,7 +24,7 @@
       padding-right: env(safe-area-inset-right);
     }
     
-    /* TOURMANAGER API BLOCK (remains aligned on the bottom-right) */
+    /* TOURMANAGER API BLOCK (remains aligned on the bottom‑right) */
     .title-container {
       position: absolute;
       bottom: calc(5% + env(safe-area-inset-bottom));
@@ -34,7 +34,7 @@
       flex-direction: column;
       align-items: flex-end;
       font-weight: bold;
-      font-size: 10vw;  /* Maintains the large size */
+      font-size: 10vw;
       letter-spacing: -1px;
       line-height: 0.75;
       text-align: right;
@@ -57,7 +57,7 @@
       font-weight: bold;
     }
     
-    /* TAGLINE BLOCK with smooth, flowing shimmer (toned down brightness) */
+    /* TAGLINE BLOCK with smooth, flowing shimmer */
     .tagline {
       position: absolute;
       top: calc(32% + env(safe-area-inset-top)); /* Positioned in the upper third */
@@ -70,7 +70,7 @@
       text-transform: lowercase;
       letter-spacing: 0.2em;
       
-      /* Use a gradient for a flowing shimmer effect */
+      /* Use a gradient for a flowing shimmer effect – toned down brightness */
       color: transparent;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
       background-size: 200% 100%;
@@ -82,30 +82,33 @@
       white-space: nowrap;
     }
     
-    /* When visible, fade in and start the shimmer animation */
+    /* When visible, fade in quickly and start the continuous shimmer.
+       Note: The shimmer animation is delayed negatively (–1.5s) so that by the time the fade-in finishes,
+       the bright spot in the gradient aligns with the text. */
     .tagline.visible {
       visibility: visible;
       animation:
-        fadeIn 6.5s ease-in forwards,
-        shimmerFlow 6.5s linear 0s infinite;
+        fadeIn 1.5s ease-in forwards,
+        shimmerFlow 6.5s linear -1.5s infinite;
     }
     
-    /* Keyframes for fade-in */
+    /* Keyframes for fast fade-in */
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
     
-    /* Keyframes for a continuous, flowing shimmer across the text */
+    /* Keyframes for a continuous, flowing shimmer.
+       Reversed the direction so the gradient moves from left to right. */
     @keyframes shimmerFlow {
-      0%   { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
   </style>
 </head>
 <body>
   <div class="safe-area">
-    <!-- TOURMANAGER API BLOCK (remains aligned on the bottom-right) -->
+    <!-- TOURMANAGER API BLOCK (remains aligned on the bottom‑right) -->
     <div class="title-container">
       <div>TourManager</div>
       <div class="bar-api">
