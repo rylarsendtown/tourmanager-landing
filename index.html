@@ -5,27 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TourManagerAPI</title>
   <style>
+    /* Base styling */
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
       background: #444;
       color: #fff;
-      height: 100vh;
       text-transform: uppercase;
-      position: relative; /* Enables absolute positioning for elements */
     }
-
-    /* --- TOURMANAGER API BLOCK (unchanged) --- */
+    
+    /* Safe-area container to respect iOS notches and address bars */
+    .safe-area {
+      position: relative;
+      height: 100vh;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+    
+    /* TOURMANAGER API BLOCK (unchanged in size/appearance, but now offset for safe areas) */
     .title-container {
       position: absolute;
-      bottom: 5%;
-      right: 5%;
+      bottom: calc(5% + env(safe-area-inset-bottom));
+      right: calc(5% + env(safe-area-inset-right));
       width: 80%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       font-weight: bold;
-      font-size: 10vw;  /* ~80% of viewport width */
+      font-size: 10vw;  /* Maintains the large size */
       letter-spacing: -1px;
       line-height: 0.75;
       text-align: right;
@@ -47,57 +56,47 @@
       font-size: 1em;
       font-weight: bold;
     }
-
-    /* --- TAGLINE BLOCK WITH FLOWING SHIMMER --- */
+    
+    /* TAGLINE BLOCK with smooth, flowing shimmer (toned down brightness) */
     .tagline {
       position: absolute;
-      top: 32%;            /* ~Golden-ratio-inspired for top-third placement */
+      top: calc(32% + env(safe-area-inset-top)); /* Positioned in the upper third */
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3.82vw;   /* A golden-ratio step down from 10vw */
+      font-size: 3.82vw; /* A golden-ratio step down from 10vw */
       font-weight: normal;
       text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
-      letter-spacing: 0.2em; /* Airy kerning */
+      letter-spacing: 0.2em;
       
-      /* We'll use a gradient for shimmer, so set color to transparent. */
+      /* Use a gradient for a flowing shimmer effect */
       color: transparent;
+      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
       
-      /* Fade-in starts from invisible. */
       opacity: 0;
       visibility: hidden;
       white-space: nowrap;
-
-      /* The background is what creates the shimmer effect. */
-      background: linear-gradient(
-        120deg,    /* Angle of the gradient (try 90deg or 120deg, etc.) */
-        #bbb 20%,  /* Base color left side */
-        #fff 40%,  /* Bright “highlight” in the middle */
-        #bbb 60%   /* Base color right side */
-      );
-      background-size: 200% 100%; 
-      background-clip: text;          /* Show gradient inside text only */
-      -webkit-background-clip: text;  /* For Safari compatibility */
     }
-
-    /* When visible, run two animations: fade in + continuous shimmer. */
+    
+    /* When visible, fade in and start the shimmer animation */
     .tagline.visible {
       visibility: visible;
       animation:
-        fadeIn 2s ease-in forwards,      /* Fade in over 2s */
-        shimmerFlow 3s linear 2s infinite; /* Start shimmer after 2s, repeat every 3s */
+        fadeIn 2s ease-in forwards,
+        shimmerFlow 3s linear 2s infinite;
     }
-
-    /* KEYFRAMES */
-
-    /* 1) Fade in from opacity 0 -> 1. */
+    
+    /* Keyframes for fade-in */
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
-
-    /* 2) Shimmer flow: animate background-position from left to right. */
+    
+    /* Keyframes for a continuous, flowing shimmer across the text */
     @keyframes shimmerFlow {
       0%   { background-position: -200% 0; }
       100% { background-position: 200% 0; }
@@ -105,22 +104,24 @@
   </style>
 </head>
 <body>
-  <!-- TOURMANAGER API BLOCK -->
-  <div class="title-container">
-    <div>TourManager</div>
-    <div class="bar-api">
-      <div class="bar"></div>
-      <div class="api">API</div>
+  <div class="safe-area">
+    <!-- TOURMANAGER API BLOCK (remains aligned on the bottom-right) -->
+    <div class="title-container">
+      <div>TourManager</div>
+      <div class="bar-api">
+        <div class="bar"></div>
+        <div class="api">API</div>
+      </div>
+    </div>
+    
+    <!-- TAGLINE BLOCK (centered towards the top third) -->
+    <div class="tagline" id="tagline">
+      orchestrating concert data
     </div>
   </div>
-
-  <!-- TAGLINE BLOCK -->
-  <div class="tagline" id="tagline">
-    orchestrating concert data
-  </div>
-
+  
   <script>
-    // Reveal the tagline after a short delay on page load
+    // After a short delay on page load, reveal the tagline with animations
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
