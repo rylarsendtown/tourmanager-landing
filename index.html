@@ -48,7 +48,7 @@
       font-weight: bold;
     }
 
-    /* --- TAGLINE BLOCK --- */
+    /* --- TAGLINE BLOCK WITH FLOWING SHIMMER --- */
     .tagline {
       position: absolute;
       top: 32%;            /* ~Golden-ratio-inspired for top-third placement */
@@ -59,50 +59,52 @@
       text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
-      letter-spacing: 0.2em;  /* Airier kerning */
+      letter-spacing: 0.2em; /* Airy kerning */
+      
+      /* We'll use a gradient for shimmer, so set color to transparent. */
+      color: transparent;
+      
+      /* Fade-in starts from invisible. */
       opacity: 0;
       visibility: hidden;
       white-space: nowrap;
-      color: #bbb;
-      /* No animation by default; triggered only when .visible is added */
+
+      /* The background is what creates the shimmer effect. */
+      background: linear-gradient(
+        120deg,    /* Angle of the gradient (try 90deg or 120deg, etc.) */
+        #bbb 20%,  /* Base color left side */
+        #fff 40%,  /* Bright “highlight” in the middle */
+        #bbb 60%   /* Base color right side */
+      );
+      background-size: 200% 100%; 
+      background-clip: text;          /* Show gradient inside text only */
+      -webkit-background-clip: text;  /* For Safari compatibility */
     }
 
-    /* When visible, run multiple animations in sequence/overlap */
+    /* When visible, run two animations: fade in + continuous shimmer. */
     .tagline.visible {
-      /* 1) Fade in over 4s, 2) shimmer once over 5s, 3) start periodic shimmer at 6s */
-      animation:
-        fadeIn 4s ease-in,
-        shimmer 5s ease-in-out,
-        periodicShimmer 4s ease-in-out 6s infinite;
-      opacity: 1;
       visibility: visible;
+      animation:
+        fadeIn 2s ease-in forwards,      /* Fade in over 2s */
+        shimmerFlow 3s linear 2s infinite; /* Start shimmer after 2s, repeat every 3s */
     }
 
-    /* --- KEYFRAMES --- */
+    /* KEYFRAMES */
 
-    /* 1) Fade in (opacity 0 -> 1) */
+    /* 1) Fade in from opacity 0 -> 1. */
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
 
-    /* 2) Initial shimmer (color #fff -> #bbb over 5s) */
-    @keyframes shimmer {
-      0%   { color: #fff; }
-      100% { color: #bbb; }
-    }
-
-    /* 3) Periodic shimmer “drumbeat” (repeat every 4s, starting at 6s) */
-    @keyframes periodicShimmer {
-      0%   { color: #bbb; }
-      10%  { color: #fff; }
-      20%  { color: #bbb; }
-      100% { color: #bbb; }
+    /* 2) Shimmer flow: animate background-position from left to right. */
+    @keyframes shimmerFlow {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
     }
   </style>
 </head>
 <body>
-
   <!-- TOURMANAGER API BLOCK -->
   <div class="title-container">
     <div>TourManager</div>
