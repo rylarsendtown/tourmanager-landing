@@ -12,21 +12,18 @@
       color: #fff;
       text-transform: uppercase;
     }
-    
     .safe-area {
       position: relative;
-      height: 100dvh; /* Using dvh to avoid iOS Safari address-bar issues */
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-      padding-left: env(safe-area-inset-left);
-      padding-right: env(safe-area-inset-right);
+      height: 100dvh;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right)
+               env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
-    
-    /* TOURMANAGER API BLOCK (unchanged) */
+
+    /* Title container: same size, but slightly adjusted bottom/right */
     .title-container {
       position: absolute;
-      bottom: calc(5% + env(safe-area-inset-bottom));
-      right: calc(5% + env(safe-area-inset-right));
+      bottom: 6.18%;
+      right: 6.18%;
       width: 80%;
       display: flex;
       flex-direction: column;
@@ -44,9 +41,8 @@
       justify-content: flex-end;
       width: 100%;
     }
-    /* Updated bar dimensions referencing the golden ratio (~6.18:1) */
     .bar {
-      width: 0.618em;  /* ~6.18 if we consider height 0.1em */
+      width: 0.618em;
       height: 0.1em;
       background: black;
       margin-right: 0.06em;
@@ -56,18 +52,18 @@
       font-weight: bold;
     }
 
-    /* TAGLINE BLOCK, same shimmer/fade as before */
+    /* Tagline: placed around 38.2% from top for a golden-ratio feel */
     .tagline {
       position: absolute;
-      top: 30%;
+      top: 38.2%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3.82vw;
+      font-size: 3.82vw; /* keep or tweak to 6.18vw / 2.36vw if you prefer */
       font-weight: normal;
       text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.1618em; /* subtle golden ratio reference */
       
       color: transparent;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
@@ -97,7 +93,6 @@
 </head>
 <body>
   <div class="safe-area">
-    <!-- TOURMANAGER API BLOCK -->
     <div class="title-container">
       <div>TourManager</div>
       <div class="bar-api">
@@ -106,14 +101,11 @@
       </div>
     </div>
     
-    <!-- TAGLINE BLOCK -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
-  
   <script>
-    // Show tagline after a short delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
