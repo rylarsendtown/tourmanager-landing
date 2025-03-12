@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TourManagerAPI</title>
   <style>
-    /* Base styling */
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
@@ -14,17 +13,17 @@
       text-transform: uppercase;
     }
     
-    /* Safe-area container to respect iOS notches and address bars */
+    /* Use 100dvh to handle iOS Safari's dynamic address bar */
     .safe-area {
       position: relative;
-      height: 100vh;
+      height: 100dvh; /* Instead of 100vh */
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
     }
     
-    /* TOURMANAGER API BLOCK (remains aligned on the bottom‑right) */
+    /* TOURMANAGER API BLOCK */
     .title-container {
       position: absolute;
       bottom: calc(5% + env(safe-area-inset-bottom));
@@ -57,20 +56,22 @@
       font-weight: bold;
     }
     
-    /* TAGLINE BLOCK with smooth, flowing shimmer */
+    /* TAGLINE BLOCK with smoother layout in top third */
     .tagline {
       position: absolute;
-      top: calc(32% + env(safe-area-inset-top)); /* Positioned in the upper third */
+      /* For top third, we can do ~30% of the safe-area container's height. 
+         We'll combine a percentage with the safe area top inset. */
+      top: 30%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3.82vw; /* A golden-ratio step down from 10vw */
+      
+      font-size: 3.82vw; 
       font-weight: normal;
       text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
       letter-spacing: 0.2em;
       
-      /* Use a gradient for a flowing shimmer effect – toned down brightness */
       color: transparent;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
       background-size: 200% 100%;
@@ -82,9 +83,7 @@
       white-space: nowrap;
     }
     
-    /* When visible, fade in quickly and start the continuous shimmer.
-       Note: The shimmer animation is delayed negatively (–1.5s) so that by the time the fade-in finishes,
-       the bright spot in the gradient aligns with the text. */
+    /* Fade in quickly, continuous shimmer reversed from left to right */
     .tagline.visible {
       visibility: visible;
       animation:
@@ -92,14 +91,11 @@
         shimmerFlow 6.5s linear -1.5s infinite;
     }
     
-    /* Keyframes for fast fade-in */
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
     
-    /* Keyframes for a continuous, flowing shimmer.
-       Reversed the direction so the gradient moves from left to right. */
     @keyframes shimmerFlow {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -108,7 +104,7 @@
 </head>
 <body>
   <div class="safe-area">
-    <!-- TOURMANAGER API BLOCK (remains aligned on the bottom‑right) -->
+    <!-- TOURMANAGER API BLOCK -->
     <div class="title-container">
       <div>TourManager</div>
       <div class="bar-api">
@@ -117,18 +113,18 @@
       </div>
     </div>
     
-    <!-- TAGLINE BLOCK (centered towards the top third) -->
+    <!-- TAGLINE BLOCK -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
   
   <script>
-    // After a short delay on page load, reveal the tagline with animations
+    // Show tagline after a short delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
-      }, 1000); // Adjust delay as needed
+      }, 1000);
     });
   </script>
 </body>
