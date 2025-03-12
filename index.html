@@ -12,18 +12,21 @@
       color: #fff;
       text-transform: uppercase;
     }
+    /* Use dvh to handle iOS Safari's dynamic address bar */
     .safe-area {
       position: relative;
       height: 100dvh;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right)
-               env(safe-area-inset-bottom) env(safe-area-inset-left);
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
     }
-
-    /* Title container: same size, but slightly adjusted bottom/right */
+    
+    /* TITLE CONTAINER (unchanged design) */
     .title-container {
       position: absolute;
-      bottom: 6.18%;
-      right: 6.18%;
+      bottom: 6.18%; /* Golden ratio offset from bottom */
+      right: 6.18%;  /* Golden ratio offset from right */
       width: 80%;
       display: flex;
       flex-direction: column;
@@ -41,6 +44,7 @@
       justify-content: flex-end;
       width: 100%;
     }
+    /* Black bar sized with golden ratio in mind */
     .bar {
       width: 0.618em;
       height: 0.1em;
@@ -51,20 +55,22 @@
       font-size: 1em;
       font-weight: bold;
     }
-
-    /* Tagline: placed around 38.2% from top for a golden-ratio feel */
+    
+    /* TAGLINE BLOCK (now right-aligned, golden ratio offsets) */
     .tagline {
       position: absolute;
-      top: 38.2%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3.82vw; /* keep or tweak to 6.18vw / 2.36vw if you prefer */
+      top: 38.2%;    /* Golden-ratio-inspired top third */
+      right: 6.18%;  /* Same offset as title container for horizontal alignment */
+      width: 80%;
+      
+      font-size: 3.82vw; /* Golden-ratio step down from 10vw */
       font-weight: normal;
-      text-align: center;
       line-height: 1.2;
       text-transform: lowercase;
-      letter-spacing: 0.1618em; /* subtle golden ratio reference */
+      letter-spacing: 0.2em;
+      text-align: right; /* Right-align to match title container */
       
+      /* Shimmer gradient setup */
       color: transparent;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
       background-size: 200% 100%;
@@ -75,12 +81,15 @@
       visibility: hidden;
       white-space: nowrap;
     }
+    
+    /* Fade in & shimmer, no changes to the animation logic */
     .tagline.visible {
       visibility: visible;
       animation:
         fadeIn 1.5s ease-in forwards,
         shimmerFlow 6.5s linear -1.5s infinite;
     }
+    
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
@@ -93,6 +102,7 @@
 </head>
 <body>
   <div class="safe-area">
+    <!-- Title Container -->
     <div class="title-container">
       <div>TourManager</div>
       <div class="bar-api">
@@ -101,11 +111,14 @@
       </div>
     </div>
     
+    <!-- Tagline (now right-aligned) -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
+  
   <script>
+    // Reveal tagline after a short delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
