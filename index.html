@@ -75,7 +75,7 @@
 
     /*
       Inner row for the 6 bars;
-      overflow: visible ensures mirrored parts aren't clipped.
+      overflow: visible ensures bars aren’t clipped if they scale outside
     */
     .equalizer-row {
       display: flex;
@@ -85,46 +85,63 @@
       overflow: visible;
     }
 
-    /* Each bar is 1vw wide, 16vw tall, mirrored around its center */
+    /* Each bar is 1vw wide, 16vw tall overall. We'll split top/bottom. */
     .eq-bar {
       position: relative;
       width: 1vw;
       height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* top half and bottom half fill container */
+    }
+
+    /* Top half and bottom half each fill 50% of the parent’s height */
+    .eq-bar-top,
+    .eq-bar-bottom {
+      width: 100%;
+      height: 50%;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
       border-radius: 0.5vw;
-      transform-origin: center;
+      transform: scaleY(0.5); /* Start “compressed” at 50% scale */
+      transform-origin: bottom; /* or top, see below for each half */
       animation: equalize 3.25s ease-in-out infinite;
     }
 
-    /* Staggered delays for variance */
-    .eq-bar:nth-child(1) { animation-delay: 0s;   }
-    .eq-bar:nth-child(2) { animation-delay: 0.4s; }
-    .eq-bar:nth-child(3) { animation-delay: 0.8s; }
-    .eq-bar:nth-child(4) { animation-delay: 1.2s; }
-    .eq-bar:nth-child(5) { animation-delay: 1.6s; }
-    .eq-bar:nth-child(6) { animation-delay: 2s;   }
-
-    /* Keyframes: bar scale from 0.5 -> 1 => 3.25s cycle (twice tagline’s 6.5s) */
-    @keyframes equalize {
-      0%, 100% { transform: scaleY(0.5); }
-      50%      { transform: scaleY(1);   }
+    /* The bottom half expands upward from the center line, so pivot at the top. */
+    .eq-bar-bottom {
+      transform-origin: top;
     }
 
-    /*
-      Pseudo-element for mirroring: rotate(180deg) 
-      instead of scaleY(-1) for iOS compatibility
-    */
-    .eq-bar::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: inherit;
-      border-radius: inherit;
-      transform-origin: top;
-      transform: rotate(180deg);
+    /* Stagger the bar animations for variety */
+    .eq-bar:nth-child(1) .eq-bar-top,
+    .eq-bar:nth-child(1) .eq-bar-bottom {
+      animation-delay: 0s;
+    }
+    .eq-bar:nth-child(2) .eq-bar-top,
+    .eq-bar:nth-child(2) .eq-bar-bottom {
+      animation-delay: 0.4s;
+    }
+    .eq-bar:nth-child(3) .eq-bar-top,
+    .eq-bar:nth-child(3) .eq-bar-bottom {
+      animation-delay: 0.8s;
+    }
+    .eq-bar:nth-child(4) .eq-bar-top,
+    .eq-bar:nth-child(4) .eq-bar-bottom {
+      animation-delay: 1.2s;
+    }
+    .eq-bar:nth-child(5) .eq-bar-top,
+    .eq-bar:nth-child(5) .eq-bar-bottom {
+      animation-delay: 1.6s;
+    }
+    .eq-bar:nth-child(6) .eq-bar-top,
+    .eq-bar:nth-child(6) .eq-bar-bottom {
+      animation-delay: 2s;
+    }
+
+    /* Keyframes: bars scale from 0.5 -> 1 => 3.25s cycle (twice tagline’s 6.5s) */
+    @keyframes equalize {
+      0%, 100% { transform: scaleY(0.5); }
+      50%      { transform: scaleY(1); }
     }
 
     /* Tagline block (unchanged animations) */
@@ -166,7 +183,7 @@
 </head>
 <body>
   <div class="safe-area">
-    <!-- Logo row: Title container + Equalizer -->
+    <!-- Logo row: Title container (2 lines) + Equalizer -->
     <div class="logo-row">
       <div class="title-container">
         <div>TourManager</div>
@@ -176,22 +193,39 @@
       </div>
       <div class="equalizer">
         <div class="equalizer-row">
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
+          <!-- 6 bars, each split into top/bottom halves -->
+          <div class="eq-bar">
+            <div class="eq-bar-top"></div>
+            <div class="eq-bar-bottom"></div>
+          </div>
+          <div class="eq-bar">
+            <div class="eq-bar-top"></div>
+            <div class="eq-bar-bottom"></div>
+          </div>
+          <div class="eq-bar">
+            <div class="eq-bar-top"></div>
+            <div class="eq-bar-bottom"></div>
+          </div>
+          <div class="eq-bar">
+            <div class="eq-bar-top"></div>
+            <div class="eq-bar-bottom"></div>
+          </div>
+          <div class="eq-bar">
+            <div class="eq-bar-top"></div>
+            <div class="eq-bar-bottom"></div>
+          </div>
+          <div class="eq-bar">
+            <div class="eq-bar-top"></div>
+            <div class="eq-bar-bottom"></div>
+          </div>
         </div>
       </div>
     </div>
-
     <!-- Tagline block -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
-
   <script>
     window.addEventListener("load", () => {
       setTimeout(() => {
