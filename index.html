@@ -15,7 +15,8 @@
         color: #fff;
         text-transform: uppercase;
       }
-      /* Safe-area container for dynamic viewport and notches */
+
+      /* Safe-area container for dynamic viewport + notches */
       .safe-area {
         position: relative;
         height: 100dvh;
@@ -24,7 +25,8 @@
         padding-bottom: env(safe-area-inset-bottom);
         padding-left: env(safe-area-inset-left);
       }
-      /* Logo row holds the title container and the equalizer */
+
+      /* Logo row: Title container + Equalizer */
       .logo-row {
         position: absolute;
         top: 61.8%;
@@ -33,14 +35,15 @@
         align-items: flex-end;
         gap: 2vw;
       }
-      /* Title container (logo) – scaled to 8vw */
+
+      /* Title container (logo), 2 lines of 8vw => ~16vw total height */
       .title-container {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
         font-weight: bold;
         font-size: 8vw;
-        line-height: 1; /* Two lines of text, each 8vw tall, total ~16vw */
+        line-height: 1;
         letter-spacing: -1px;
         text-align: right;
         cursor: pointer;
@@ -55,56 +58,68 @@
         font-size: 1em;
         font-weight: bold;
       }
-      /* Equalizer container: set fixed height to match title container (~16vw) */
+
+      /* Equalizer container set to ~16vw height to match two lines of text */
       .equalizer {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 16vw;
       }
-      /* Inner container for the 6 equalizer bars in a row */
+
+      /* Row for the 6 bars; allow overflow so mirrored parts aren’t clipped */
       .equalizer-row {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5vw;
+        overflow: visible; /* Important for iOS + mirrored shapes */
       }
-      /* Each equalizer bar */
+
+      /* Each equalizer bar: mirrored shape from center */
       .eq-bar {
         position: relative;
         width: 1vw;
         height: 100%;
+        /* Use the same gradient as the tagline; 
+           Add a border for debugging (remove if desired). */
         background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
         border-radius: 0.5vw;
+        border: 1px solid #fff; /* optional debug border */
+        
         transform-origin: center;
-        /* Animation: twice as fast as tagline, i.e. 3.25s cycle */
         animation: equalize 3.25s ease-in-out infinite;
       }
-      /* Stagger delays for variance */
+
+      /* Stagger the bar animations for variety */
       .eq-bar:nth-child(1) { animation-delay: 0s; }
       .eq-bar:nth-child(2) { animation-delay: 0.4s; }
       .eq-bar:nth-child(3) { animation-delay: 0.8s; }
       .eq-bar:nth-child(4) { animation-delay: 1.2s; }
       .eq-bar:nth-child(5) { animation-delay: 1.6s; }
       .eq-bar:nth-child(6) { animation-delay: 2s; }
-      /* Keyframes for equalizer animation */
+
       @keyframes equalize {
         0%, 100% { transform: scaleY(0.5); }
-        50% { transform: scaleY(1); }
+        50%      { transform: scaleY(1); }
       }
-      /* Mirror each bar using a pseudo-element (extending above and below the centerline) */
+
+      /* Pseudo-element for the mirrored half */
       .eq-bar::after {
         content: "";
         position: absolute;
         top: 50%;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 50%;
         background: inherit;
         border-radius: inherit;
-        transform: scaleY(-1);
+        /* Use rotation instead of negative scale to avoid iOS issues */
+        transform-origin: top;
+        transform: rotate(180deg);
       }
-      /* Tagline block – unchanged animation and styling */
+
+      /* Tagline block (unchanged) */
       .tagline {
         position: absolute;
         top: 38.2%;
@@ -127,22 +142,23 @@
       }
       .tagline.visible {
         visibility: visible;
-        animation: fadeIn 1.5s ease-in forwards,
+        animation:
+          fadeIn 1.5s ease-in forwards,
           shimmerFlow 6.5s linear -1.5s infinite;
       }
       @keyframes fadeIn {
-        0% { opacity: 0; }
+        0%   { opacity: 0; }
         100% { opacity: 1; }
       }
       @keyframes shimmerFlow {
-        0% { background-position: 200% 0; }
+        0%   { background-position: 200% 0; }
         100% { background-position: -200% 0; }
       }
     </style>
   </head>
   <body>
     <div class="safe-area">
-      <!-- Logo row: Title container (logo) + Equalizer -->
+      <!-- Logo row: Title container + Equalizer -->
       <div class="logo-row">
         <div class="title-container">
           <div>TourManager</div>
