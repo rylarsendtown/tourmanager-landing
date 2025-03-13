@@ -13,7 +13,7 @@
       text-transform: uppercase;
     }
     
-    /* Safe-area container to respect device insets */
+    /* Safe-area container respects device insets */
     .safe-area {
       position: relative;
       height: 100dvh;
@@ -23,13 +23,19 @@
       padding-right: env(safe-area-inset-right);
     }
     
-    /* Title container (logo) repositioned using golden ratio:
-       Top at 61.8% moves it higher on the page */
-    .title-container {
+    /* Logo row holds the title container and the equalizer */
+    .logo-row {
       position: absolute;
+      /* Place this row at 61.8% from the top – a golden ratio value */
       top: 61.8%;
       right: 6.18%;
-      width: 80%;
+      display: flex;
+      align-items: flex-end;
+      gap: 1em; /* gap between the title container and equalizer */
+    }
+    
+    /* Title container remains as before (with its text, size, and styling) */
+    .title-container {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -53,8 +59,40 @@
       font-weight: bold;
     }
     
-    /* Tagline repositioned to remain in harmony:
-       Top at 38.2% places it above the title container */
+    /* Equalizer container – placed to the right of the title container */
+    .equalizer {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.2em;
+    }
+    
+    /* Each equalizer bar */
+    .eq-bar {
+      /* The bars use relative sizing; here 0.3em width makes them in harmony with text */
+      width: 0.3em;
+      /* Base height is set via transform scale (the bar’s “rest” is half-height) */
+      height: 1em;
+      background: #bbb;
+      transform-origin: bottom;
+      /* Animation cycle set to 6.5s to match the tagline shimmer */
+      animation: equalize 6.5s ease-in-out infinite;
+    }
+    
+    /* Stagger the animations for a dynamic effect */
+    .eq-bar:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+    
+    .eq-bar:nth-child(3) {
+      animation-delay: 1s;
+    }
+    
+    @keyframes equalize {
+      0%, 100% { transform: scaleY(0.5); }
+      50% { transform: scaleY(1); }
+    }
+    
+    /* Tagline block (unchanged) */
     .tagline {
       position: absolute;
       top: 38.2%;
@@ -66,13 +104,11 @@
       text-transform: lowercase;
       letter-spacing: 0.2em;
       text-align: right;
-      
       color: transparent;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
       background-size: 200% 100%;
       background-clip: text;
       -webkit-background-clip: text;
-      
       opacity: 0;
       visibility: hidden;
       white-space: nowrap;
@@ -98,21 +134,29 @@
 </head>
 <body>
   <div class="safe-area">
-    <!-- Title container (logo) -->
-    <div class="title-container">
-      <div>TourManager</div>
-      <div class="bar-api">
-        <div class="api">API</div>
+    <!-- Logo row: Title container (logo) and equalizer side-by-side -->
+    <div class="logo-row">
+      <div class="title-container">
+        <div>TourManager</div>
+        <div class="bar-api">
+          <div class="api">API</div>
+        </div>
+      </div>
+      <div class="equalizer">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
       </div>
     </div>
     
-    <!-- Tagline -->
+    <!-- Tagline remains unchanged -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
   
   <script>
+    // After a short delay, reveal the tagline as before
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
