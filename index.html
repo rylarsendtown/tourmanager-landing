@@ -19,11 +19,9 @@
     /* Safe-area container for iOS dynamic viewport */
     .safe-area {
       position: relative;
-      height: 100dvh;
-      padding-top: env(safe-area-inset-top);
-      padding-right: env(safe-area-inset-right);
-      padding-bottom: env(safe-area-inset-bottom);
-      padding-left: env(safe-area-inset-left);
+      height: 100dvh; /* iOS Safari 16+ should handle dvh better than vh */
+      padding: env(safe-area-inset-top) env(safe-area-inset-right)
+               env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
     /* Logo row: Title container + Equalizer side by side */
@@ -34,11 +32,13 @@
       display: flex;
       align-items: flex-end;
       gap: 2vw;
+      /* Debug color to see if the container is visible at all */
+      background: rgba(255, 0, 0, 0.2);
     }
 
     /*
       Title container (logo):
-      - 2 lines at font-size: 8vw, line-height: 1 => total ~16vw height
+      - 2 lines at font-size: 8vw => total ~16vw height
     */
     .title-container {
       display: flex;
@@ -50,6 +50,8 @@
       letter-spacing: -1px; /* same as before */
       text-align: right;
       cursor: pointer;
+      /* Debug color to confirm the bounding box */
+      background: rgba(0, 255, 0, 0.2);
     }
     .bar-api {
       display: flex;
@@ -64,52 +66,61 @@
 
     /*
       Equalizer container:
-      - Matches ~16vw so it aligns with the total height of the 2-line logo
+      - Matches ~16vw, using calc(8vw * 2) in case iOS misreads direct “16vw”
     */
     .equalizer {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 16vw;
+      height: calc(8vw * 2);
+      /* Debug color to confirm the bounding box */
+      background: rgba(0, 0, 255, 0.2);
     }
 
     /*
       Inner row for the 6 bars;
-      overflow: visible ensures bars aren’t clipped if they scale outside
+      overflow: visible ensures bars aren’t clipped if they scale
     */
     .equalizer-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5vw;
+      gap: 1vw;
       overflow: visible;
+      /* Debug color to see the row space */
+      background: rgba(255, 255, 0, 0.2);
     }
 
-    /* Each bar is 1vw wide, 16vw tall overall. We'll split top/bottom. */
+    /* Each bar is 1vw wide, 100% tall => 16vw total. 
+       We'll split top/bottom for mirrored effect. */
     .eq-bar {
       position: relative;
       width: 1vw;
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* top half and bottom half fill container */
+      justify-content: space-between; /* top half & bottom half fill container */
+      /* Debug color on each bar container */
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    /* Top half and bottom half each fill 50% of the parent’s height */
+    /* Top half & bottom half each fill 50% of parent height, scale from 0.5 to 1 */
     .eq-bar-top,
     .eq-bar-bottom {
       width: 100%;
       height: 50%;
       background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
       border-radius: 0.5vw;
-      transform: scaleY(0.5); /* Start “compressed” at 50% scale */
-      transform-origin: bottom; /* or top, see below for each half */
+      transform: scaleY(0.5);
       animation: equalize 3.25s ease-in-out infinite;
     }
-
-    /* The bottom half expands upward from the center line, so pivot at the top. */
+    /* The bottom half expands upward from center line => pivot at top */
     .eq-bar-bottom {
       transform-origin: top;
+    }
+    /* The top half expands downward => pivot at bottom */
+    .eq-bar-top {
+      transform-origin: bottom;
     }
 
     /* Stagger the bar animations for variety */
@@ -138,10 +149,9 @@
       animation-delay: 2s;
     }
 
-    /* Keyframes: bars scale from 0.5 -> 1 => 3.25s cycle (twice tagline’s 6.5s) */
     @keyframes equalize {
       0%, 100% { transform: scaleY(0.5); }
-      50%      { transform: scaleY(1); }
+      50%      { transform: scaleY(1);   }
     }
 
     /* Tagline block (unchanged animations) */
@@ -221,6 +231,7 @@
         </div>
       </div>
     </div>
+
     <!-- Tagline block -->
     <div class="tagline" id="tagline">
       orchestrating concert data
