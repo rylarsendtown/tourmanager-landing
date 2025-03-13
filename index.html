@@ -12,8 +12,6 @@
       color: #fff;
       text-transform: uppercase;
     }
-    
-    /* Safe-area container to respect device insets */
     .safe-area {
       position: relative;
       height: 100dvh;
@@ -22,75 +20,71 @@
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
     }
-    
-    /* Logo row holds the title container and equalizer side-by-side.
-       Positioned using golden-ratio-inspired offsets. */
+
+    /* We position everything with golden-ratio offsets */
     .logo-row {
       position: absolute;
       top: 61.8%;
       right: 6.18%;
       display: flex;
+      /* Align items at the bottom so both containers share a baseline */
       align-items: flex-end;
-      gap: 1em;
+      gap: 2vw; /* space between the text and the equalizer */
     }
-    
-    /* Title container (logo) shrunk to 8vw for overall harmony */
+
+    /* Title container: 2 lines of 8vw each -> total bounding box ~16vw high */
     .title-container {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      font-weight: bold;
-      font-size: 8vw;  /* Reduced from 10vw */
+      font-size: 8vw;  
+      line-height: 1;  /* each line is exactly 8vw tall, so 2 lines => ~16vw total */
       letter-spacing: -1px;
-      line-height: 0.75;
       text-align: right;
       cursor: pointer;
     }
-    
+
+    /* The second line “API” is also 8vw (1em relative to 8vw parent) */
     .bar-api {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       width: 100%;
     }
-    
     .api {
       font-size: 1em;
       font-weight: bold;
     }
-    
-    /* Equalizer container, set to use the same font-size so that 1em matches the logo height */
+
+    /* Equalizer container: fix the height to 16vw to match the 2-line bounding box */
     .equalizer {
       display: flex;
       align-items: flex-end;
-      gap: 0.2em;
-      font-size: 8vw; /* 1em = 8vw; equalizer will match title container's height */
-      height: 100%;
+      gap: 1vw;
+      width: auto;
+      height: 16vw; /* matches the total height of the 2-line text container */
     }
-    
-    /* Each equalizer bar */
     .eq-bar {
-      width: 0.3em;
-      height: 1em;  /* 1em here equals the logo's height */
+      /* Each bar is some fraction of 16vw in width. Adjust to taste. */
+      width: 1vw;
+      height: 100%; /* fill the entire 16vw container height */
       background: #bbb;
       transform-origin: bottom;
       animation: equalize 6.5s ease-in-out infinite;
     }
-    
-    /* Staggered delays for organic motion */
+    /* Stagger the bars’ timing so they pulse differently */
     .eq-bar:nth-child(2) {
       animation-delay: 0.5s;
     }
     .eq-bar:nth-child(3) {
       animation-delay: 1s;
     }
-    
     @keyframes equalize {
       0%, 100% { transform: scaleY(0.5); }
-      50% { transform: scaleY(1); }
+      50%      { transform: scaleY(1); }
     }
-    
-    /* Tagline block remains unchanged */
+
+    /* Tagline (unchanged) */
     .tagline {
       position: absolute;
       top: 38.2%;
@@ -111,19 +105,16 @@
       visibility: hidden;
       white-space: nowrap;
     }
-    
     .tagline.visible {
       visibility: visible;
       animation:
         fadeIn 1.5s ease-in forwards,
         shimmerFlow 6.5s linear -1.5s infinite;
     }
-    
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
-    
     @keyframes shimmerFlow {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -132,7 +123,7 @@
 </head>
 <body>
   <div class="safe-area">
-    <!-- Logo row: Title container (logo) and equalizer side-by-side -->
+    <!-- Logo row: Title container + Equalizer side-by-side -->
     <div class="logo-row">
       <div class="title-container">
         <div>TourManager</div>
@@ -147,14 +138,14 @@
       </div>
     </div>
     
-    <!-- Tagline block (unchanged) -->
+    <!-- Tagline block -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
-  
+
   <script>
-    // Reveal the tagline after a short delay
+    // Show tagline after a short delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
