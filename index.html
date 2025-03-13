@@ -1,193 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <title>TourManagerAPI</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: Helvetica, Arial, sans-serif;
-        background: #444;
-        color: #fff;
-        text-transform: uppercase;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>TourManagerAPI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background: #444;
+      color: #fff;
+      text-transform: uppercase;
+    }
 
-      /* Safe-area container for dynamic viewport + notches */
-      .safe-area {
-        position: relative;
-        height: 100dvh;
-        padding-top: env(safe-area-inset-top);
-        padding-right: env(safe-area-inset-right);
-        padding-bottom: env(safe-area-inset-bottom);
-        padding-left: env(safe-area-inset-left);
-      }
+    /* Safe-area container for iOS dynamic viewport */
+    .safe-area {
+      position: relative;
+      height: 100dvh;
+      padding-top: env(safe-area-inset-top);
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+    }
 
-      /* Logo row: Title container + Equalizer */
-      .logo-row {
-        position: absolute;
-        top: 61.8%;
-        right: 6.18%;
-        display: flex;
-        align-items: flex-end;
-        gap: 2vw;
-      }
+    /* Logo row: Title container + Equalizer side by side */
+    .logo-row {
+      position: absolute;
+      top: 61.8%;
+      right: 6.18%;
+      display: flex;
+      align-items: flex-end;
+      gap: 2vw;
+    }
 
-      /* Title container (logo), 2 lines of 8vw => ~16vw total height */
-      .title-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        font-weight: bold;
-        font-size: 8vw;
-        line-height: 1;
-        letter-spacing: -1px;
-        text-align: right;
-        cursor: pointer;
-      }
-      .bar-api {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        width: 100%;
-      }
-      .api {
-        font-size: 1em;
-        font-weight: bold;
-      }
+    /*
+      Title container (logo):
+      - 2 lines at font-size: 8vw, line-height: 1 => total ~16vw height
+    */
+    .title-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-weight: bold;
+      font-size: 8vw;
+      line-height: 1;
+      letter-spacing: -1px; /* same as before */
+      text-align: right;
+      cursor: pointer;
+    }
+    .bar-api {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+    .api {
+      font-size: 1em;
+      font-weight: bold;
+    }
 
-      /* Equalizer container set to ~16vw height to match two lines of text */
-      .equalizer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 16vw;
-      }
+    /*
+      Equalizer container:
+      - Matches ~16vw so it aligns with the total height of the 2-line logo
+    */
+    .equalizer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 16vw;
+    }
 
-      /* Row for the 6 bars; allow overflow so mirrored parts aren’t clipped */
-      .equalizer-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5vw;
-        overflow: visible; /* Important for iOS + mirrored shapes */
-      }
+    /*
+      Inner row for the 6 bars;
+      overflow: visible ensures mirrored parts aren't clipped.
+    */
+    .equalizer-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5vw;
+      overflow: visible;
+    }
 
-      /* Each equalizer bar: mirrored shape from center */
-      .eq-bar {
-        position: relative;
-        width: 1vw;
-        height: 100%;
-        /* Use the same gradient as the tagline; 
-           Add a border for debugging (remove if desired). */
-        background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
-        border-radius: 0.5vw;
-        border: 1px solid #fff; /* optional debug border */
-        
-        transform-origin: center;
-        animation: equalize 3.25s ease-in-out infinite;
-      }
+    /* Each bar is 1vw wide, 16vw tall, mirrored around its center */
+    .eq-bar {
+      position: relative;
+      width: 1vw;
+      height: 100%;
+      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
+      border-radius: 0.5vw;
+      transform-origin: center;
+      animation: equalize 3.25s ease-in-out infinite;
+    }
 
-      /* Stagger the bar animations for variety */
-      .eq-bar:nth-child(1) { animation-delay: 0s; }
-      .eq-bar:nth-child(2) { animation-delay: 0.4s; }
-      .eq-bar:nth-child(3) { animation-delay: 0.8s; }
-      .eq-bar:nth-child(4) { animation-delay: 1.2s; }
-      .eq-bar:nth-child(5) { animation-delay: 1.6s; }
-      .eq-bar:nth-child(6) { animation-delay: 2s; }
+    /* Staggered delays for variance */
+    .eq-bar:nth-child(1) { animation-delay: 0s;   }
+    .eq-bar:nth-child(2) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.8s; }
+    .eq-bar:nth-child(4) { animation-delay: 1.2s; }
+    .eq-bar:nth-child(5) { animation-delay: 1.6s; }
+    .eq-bar:nth-child(6) { animation-delay: 2s;   }
 
-      @keyframes equalize {
-        0%, 100% { transform: scaleY(0.5); }
-        50%      { transform: scaleY(1); }
-      }
+    /* Keyframes: bar scale from 0.5 -> 1 => 3.25s cycle (twice tagline’s 6.5s) */
+    @keyframes equalize {
+      0%, 100% { transform: scaleY(0.5); }
+      50%      { transform: scaleY(1);   }
+    }
 
-      /* Pseudo-element for the mirrored half */
-      .eq-bar::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        background: inherit;
-        border-radius: inherit;
-        /* Use rotation instead of negative scale to avoid iOS issues */
-        transform-origin: top;
-        transform: rotate(180deg);
-      }
+    /*
+      Pseudo-element for mirroring: rotate(180deg) 
+      instead of scaleY(-1) for iOS compatibility
+    */
+    .eq-bar::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: inherit;
+      border-radius: inherit;
+      transform-origin: top;
+      transform: rotate(180deg);
+    }
 
-      /* Tagline block (unchanged) */
-      .tagline {
-        position: absolute;
-        top: 38.2%;
-        right: 6.18%;
-        width: 80%;
-        font-size: 3.82vw;
-        font-weight: normal;
-        line-height: 1.2;
-        text-transform: lowercase;
-        letter-spacing: 0.2em;
-        text-align: right;
-        color: transparent;
-        background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
-        background-size: 200% 100%;
-        background-clip: text;
-        -webkit-background-clip: text;
-        opacity: 0;
-        visibility: hidden;
-        white-space: nowrap;
-      }
-      .tagline.visible {
-        visibility: visible;
-        animation:
-          fadeIn 1.5s ease-in forwards,
-          shimmerFlow 6.5s linear -1.5s infinite;
-      }
-      @keyframes fadeIn {
-        0%   { opacity: 0; }
-        100% { opacity: 1; }
-      }
-      @keyframes shimmerFlow {
-        0%   { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="safe-area">
-      <!-- Logo row: Title container + Equalizer -->
-      <div class="logo-row">
-        <div class="title-container">
-          <div>TourManager</div>
-          <div class="bar-api">
-            <div class="api">API</div>
-          </div>
-        </div>
-        <div class="equalizer">
-          <div class="equalizer-row">
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-          </div>
+    /* Tagline block (unchanged animations) */
+    .tagline {
+      position: absolute;
+      top: 38.2%;
+      right: 6.18%;
+      width: 80%;
+      font-size: 3.82vw;
+      font-weight: normal;
+      line-height: 1.2;
+      text-transform: lowercase;
+      letter-spacing: 0.2em;
+      text-align: right;
+      color: transparent;
+      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      opacity: 0;
+      visibility: hidden;
+      white-space: nowrap;
+    }
+    .tagline.visible {
+      visibility: visible;
+      animation:
+        fadeIn 1.5s ease-in forwards,
+        shimmerFlow 6.5s linear -1.5s infinite;
+    }
+    @keyframes fadeIn {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes shimmerFlow {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="safe-area">
+    <!-- Logo row: Title container + Equalizer -->
+    <div class="logo-row">
+      <div class="title-container">
+        <div>TourManager</div>
+        <div class="bar-api">
+          <div class="api">API</div>
         </div>
       </div>
-      <!-- Tagline block -->
-      <div class="tagline" id="tagline">
-        orchestrating concert data
+      <div class="equalizer">
+        <div class="equalizer-row">
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+        </div>
       </div>
     </div>
-    <script>
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          document.getElementById("tagline").classList.add("visible");
-        }, 1000);
-      });
-    </script>
-  </body>
+
+    <!-- Tagline block -->
+    <div class="tagline" id="tagline">
+      orchestrating concert data
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("tagline").classList.add("visible");
+      }, 1000);
+    });
+  </script>
+</body>
 </html>
