@@ -13,7 +13,7 @@
       text-transform: uppercase;
     }
     
-    /* Safe-area container respects device insets */
+    /* Safe-area container to respect device insets */
     .safe-area {
       position: relative;
       height: 100dvh;
@@ -23,24 +23,24 @@
       padding-right: env(safe-area-inset-right);
     }
     
-    /* Logo row holds the title container and the equalizer */
+    /* Logo row holds the title container and equalizer side-by-side.
+       Positioned using golden-ratio-inspired offsets. */
     .logo-row {
       position: absolute;
-      /* Place this row at 61.8% from the top – a golden ratio value */
       top: 61.8%;
       right: 6.18%;
       display: flex;
       align-items: flex-end;
-      gap: 1em; /* gap between the title container and equalizer */
+      gap: 1em;
     }
     
-    /* Title container remains as before (with its text, size, and styling) */
+    /* Title container (logo) shrunk to 8vw for overall harmony */
     .title-container {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       font-weight: bold;
-      font-size: 10vw;
+      font-size: 8vw;  /* Reduced from 10vw */
       letter-spacing: -1px;
       line-height: 0.75;
       text-align: right;
@@ -59,30 +59,28 @@
       font-weight: bold;
     }
     
-    /* Equalizer container – placed to the right of the title container */
+    /* Equalizer container, set to use the same font-size so that 1em matches the logo height */
     .equalizer {
       display: flex;
       align-items: flex-end;
       gap: 0.2em;
+      font-size: 8vw; /* 1em = 8vw; equalizer will match title container's height */
+      height: 100%;
     }
     
     /* Each equalizer bar */
     .eq-bar {
-      /* The bars use relative sizing; here 0.3em width makes them in harmony with text */
       width: 0.3em;
-      /* Base height is set via transform scale (the bar’s “rest” is half-height) */
-      height: 1em;
+      height: 1em;  /* 1em here equals the logo's height */
       background: #bbb;
       transform-origin: bottom;
-      /* Animation cycle set to 6.5s to match the tagline shimmer */
       animation: equalize 6.5s ease-in-out infinite;
     }
     
-    /* Stagger the animations for a dynamic effect */
+    /* Staggered delays for organic motion */
     .eq-bar:nth-child(2) {
       animation-delay: 0.5s;
     }
-    
     .eq-bar:nth-child(3) {
       animation-delay: 1s;
     }
@@ -92,7 +90,7 @@
       50% { transform: scaleY(1); }
     }
     
-    /* Tagline block (unchanged) */
+    /* Tagline block remains unchanged */
     .tagline {
       position: absolute;
       top: 38.2%;
@@ -149,14 +147,14 @@
       </div>
     </div>
     
-    <!-- Tagline remains unchanged -->
+    <!-- Tagline block (unchanged) -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
   
   <script>
-    // After a short delay, reveal the tagline as before
+    // Reveal the tagline after a short delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
