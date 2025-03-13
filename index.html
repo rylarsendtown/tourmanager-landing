@@ -8,12 +8,30 @@
   />
   <title>TourManagerAPI</title>
   <style>
+    /* Base styling with subtle noise overlay */
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
-      background: #444;
+      background: #444; /* primary color theme */
       color: #fff;
       text-transform: uppercase;
+      position: relative; /* so we can place a noise overlay via ::before */
+    }
+    /* Extremely subtle repeating radial gradient for noise effect */
+    body::before {
+      content: "";
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: repeating-radial-gradient(
+        rgba(255, 255, 255, 0.02) 0,
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 100%
+      );
+      background-size: 3px 3px;
+      opacity: 0.02; /* Adjust to taste (0.02–0.05) */
+      z-index: 0; /* behind all content */
     }
 
     /* Safe-area container for iOS dynamic viewport */
@@ -22,6 +40,7 @@
       height: 100dvh;
       padding: env(safe-area-inset-top) env(safe-area-inset-right)
                env(safe-area-inset-bottom) env(safe-area-inset-left);
+      z-index: 1; /* content above noise overlay */
     }
 
     /* Logo row: Title container + Equalizer side by side */
@@ -30,8 +49,15 @@
       top: 61.8%;
       right: 6.18%;
       display: flex;
-      align-items: flex-end; /* Align text & bars along the same baseline */
+      align-items: flex-end; /* align text & bars along the same baseline */
       gap: 2vw;
+
+      /* Fade in from opacity 0 to 1 over 1.5s, starting at 0.5s */
+      opacity: 0;
+      animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
+    }
+    @keyframes fadeLogoIn {
+      to { opacity: 1; }
     }
 
     /*
@@ -47,7 +73,6 @@
       align-items: flex-end;
       height: 13vw; /* 8vw + 5vw lines */
     }
-
     /* Top line (TourManager) at 8vw */
     .title-top {
       font-size: 8vw;
@@ -56,7 +81,6 @@
       font-weight: bold;
       margin: 0;
     }
-
     /* Bottom line (API) at 5vw */
     .title-bottom {
       font-size: 5vw;
@@ -75,7 +99,6 @@
       justify-content: center;
       height: 13vw;
     }
-
     /* Row for the 6 bars, each 1vw wide, 13vw tall total. */
     .equalizer-row {
       display: flex;
@@ -94,13 +117,11 @@
       background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
       background-size: 200% 100%; /* For the shimmer effect */
       border-radius: 0.5vw;
-      /* Start scaled down around the center, so top & bottom expand equally. */
       transform: scaleY(0.4);
       transform-origin: center;
-      /* We'll run 2 animations: scale + shimmer. */
     }
 
-    /* Assign a unique scale animation (barAnim1..6) + a shared shimmerFlow. */
+    /* Each bar has 2 animations: unique scale + shimmer flow */
     .eq-bar:nth-child(1) {
       animation: barAnim1 3.25s ease-in-out infinite,
                  shimmerFlow 2s linear infinite;
@@ -126,9 +147,7 @@
                  shimmerFlow 2s linear infinite;
     }
 
-    /*
-      Tagline block (unchanged animations)
-    */
+    /* Tagline block (unchanged) */
     .tagline {
       position: absolute;
       top: 38.2%;
@@ -152,11 +171,10 @@
     .tagline.visible {
       visibility: visible;
       animation:
-        fadeIn 1.5s ease-in forwards,
+        fadeInTagline 1.5s ease-in forwards,
         shimmerFlowTagline 6.5s linear -1.5s infinite;
     }
-
-    @keyframes fadeIn {
+    @keyframes fadeInTagline {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
@@ -165,11 +183,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /*
-      Realistic bar animations:
-      Each bar has a unique pattern of scaling
-      from ~0.3–0.5 up to ~0.9–1.0 to mimic real audio.
-    */
+    /* Realistic bar scale animations for each of the 6 bars */
     @keyframes barAnim1 {
       0%, 100% { transform: scaleY(0.4); }
       15%      { transform: scaleY(1.0); }
@@ -213,10 +227,7 @@
       90%      { transform: scaleY(1.0); }
     }
 
-    /*
-      Shimmer flow for each bar’s background,
-      moves left-to-right or right-to-left quickly.
-    */
+    /* Shimmer flow for bar backgrounds, ~2s cycle */
     @keyframes shimmerFlow {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -245,7 +256,7 @@
 </head>
 <body>
   <div class="safe-area">
-    <!-- Logo row: two-line title + equalizer -->
+    <!-- Logo row: fade in first, then tagline appears -->
     <div class="logo-row">
       <div class="title-container">
         <h1 class="title-top">TourManager</h1>
@@ -253,7 +264,6 @@
       </div>
       <div class="equalizer">
         <div class="equalizer-row">
-          <!-- 6 bars, single shape, center pivot, shimmer + scale animations -->
           <div class="eq-bar"></div>
           <div class="eq-bar"></div>
           <div class="eq-bar"></div>
@@ -264,18 +274,19 @@
       </div>
     </div>
 
-    <!-- Tagline -->
+    <!-- Tagline (appears after logo fade-in) -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
 
   <script>
-    // Show tagline after a short delay
+    // On page load, fade in the logo row (handled by CSS animation).
+    // Then show the tagline after the logo fade completes (~2s).
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
-      }, 1000);
+      }, 2000); 
     });
   </script>
 </body>
