@@ -30,14 +30,14 @@
       top: 61.8%;
       right: 6.18%;
       display: flex;
-      align-items: flex-end; /* align text & bars along the same baseline */
+      align-items: flex-end; /* Align text & bars along the same baseline */
       gap: 2vw;
     }
 
     /*
       Title container (logo):
-      - "TourManager" => 8vw
-      - "API" => 5vw
+      - “TourManager” => 8vw
+      - “API” => 5vw
       => total ~13vw tall
     */
     .title-container {
@@ -82,65 +82,53 @@
       align-items: flex-end;
       justify-content: center;
       gap: 1vw;
-      overflow: visible; /* ensure no clipping if bars scale outside */
+      overflow: visible; /* ensure no clipping if bars scale bigger */
       height: 100%;
     }
 
-    /* Each bar is split into top & bottom halves for a mirrored look */
+    /* Single bar that extends from center, with no seam. */
     .eq-bar {
       position: relative;
       width: 1vw;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; /* top half & bottom half fill container */
+      background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
+      background-size: 200% 100%; /* For the shimmer effect */
+      border-radius: 0.5vw;
+      /* Start scaled down around the center, so top & bottom expand equally. */
+      transform: scaleY(0.4);
+      transform-origin: center;
+      /* We'll run 2 animations: scale + shimmer. */
     }
 
-    /* Top & bottom each fill 50%, animate scaleY from ~0.3–0.6 up to 0.8–1.0
-       (varies by bar). We’ll assign different keyframes for each bar. */
-    .eq-bar-top,
-    .eq-bar-bottom {
-      width: 100%;
-      height: 50%;
-      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
-      border-radius: 0.5vw;
-      transform-origin: bottom; /* or top, but we’ll override per half */
+    /* Assign a unique scale animation (barAnim1..6) + a shared shimmerFlow. */
+    .eq-bar:nth-child(1) {
+      animation: barAnim1 3.25s ease-in-out infinite,
+                 shimmerFlow 2s linear infinite;
     }
-    .eq-bar-bottom {
-      transform-origin: top;
+    .eq-bar:nth-child(2) {
+      animation: barAnim2 3.25s ease-in-out infinite,
+                 shimmerFlow 2s linear infinite;
+    }
+    .eq-bar:nth-child(3) {
+      animation: barAnim3 3.25s ease-in-out infinite,
+                 shimmerFlow 2s linear infinite;
+    }
+    .eq-bar:nth-child(4) {
+      animation: barAnim4 3.25s ease-in-out infinite,
+                 shimmerFlow 2s linear infinite;
+    }
+    .eq-bar:nth-child(5) {
+      animation: barAnim5 3.25s ease-in-out infinite,
+                 shimmerFlow 2s linear infinite;
+    }
+    .eq-bar:nth-child(6) {
+      animation: barAnim6 3.25s ease-in-out infinite,
+                 shimmerFlow 2s linear infinite;
     }
 
     /*
-      Assign a unique animation to each bar (barAnim1, barAnim2, etc.)
-      so they have varying peak heights and patterns.
-      The overall duration is still 3.25s (half of the tagline’s 6.5s).
+      Tagline block (unchanged animations)
     */
-    .eq-bar:nth-child(1) .eq-bar-top,
-    .eq-bar:nth-child(1) .eq-bar-bottom {
-      animation: barAnim1 3.25s ease-in-out infinite;
-    }
-    .eq-bar:nth-child(2) .eq-bar-top,
-    .eq-bar:nth-child(2) .eq-bar-bottom {
-      animation: barAnim2 3.25s ease-in-out infinite;
-    }
-    .eq-bar:nth-child(3) .eq-bar-top,
-    .eq-bar:nth-child(3) .eq-bar-bottom {
-      animation: barAnim3 3.25s ease-in-out infinite;
-    }
-    .eq-bar:nth-child(4) .eq-bar-top,
-    .eq-bar:nth-child(4) .eq-bar-bottom {
-      animation: barAnim4 3.25s ease-in-out infinite;
-    }
-    .eq-bar:nth-child(5) .eq-bar-top,
-    .eq-bar:nth-child(5) .eq-bar-bottom {
-      animation: barAnim5 3.25s ease-in-out infinite;
-    }
-    .eq-bar:nth-child(6) .eq-bar-top,
-    .eq-bar:nth-child(6) .eq-bar-bottom {
-      animation: barAnim6 3.25s ease-in-out infinite;
-    }
-
-    /* Tagline block (unchanged animations) */
     .tagline {
       position: absolute;
       top: 38.2%;
@@ -165,14 +153,14 @@
       visibility: visible;
       animation:
         fadeIn 1.5s ease-in forwards,
-        shimmerFlow 6.5s linear -1.5s infinite;
+        shimmerFlowTagline 6.5s linear -1.5s infinite;
     }
 
     @keyframes fadeIn {
       0%   { opacity: 0; }
       100% { opacity: 1; }
     }
-    @keyframes shimmerFlow {
+    @keyframes shimmerFlowTagline {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
@@ -180,7 +168,7 @@
     /*
       Realistic bar animations:
       Each bar has a unique pattern of scaling
-      to mimic real audio variance.
+      from ~0.3–0.5 up to ~0.9–1.0 to mimic real audio.
     */
     @keyframes barAnim1 {
       0%, 100% { transform: scaleY(0.4); }
@@ -225,8 +213,17 @@
       90%      { transform: scaleY(1.0); }
     }
 
+    /*
+      Shimmer flow for each bar’s background,
+      moves left-to-right or right-to-left quickly.
+    */
+    @keyframes shimmerFlow {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
     /* MEDIA QUERY for large screens:
-       Caps the font sizes so they don’t become too large on 4K monitors, etc. */
+       Caps the font sizes so they don’t become huge on 4K monitors, etc. */
     @media (min-width: 1600px) {
       .title-top {
         font-size: 12rem; /* or some max cap you prefer */
@@ -256,31 +253,13 @@
       </div>
       <div class="equalizer">
         <div class="equalizer-row">
-          <!-- 6 bars, each with top & bottom halves -->
-          <div class="eq-bar">
-            <div class="eq-bar-top"></div>
-            <div class="eq-bar-bottom"></div>
-          </div>
-          <div class="eq-bar">
-            <div class="eq-bar-top"></div>
-            <div class="eq-bar-bottom"></div>
-          </div>
-          <div class="eq-bar">
-            <div class="eq-bar-top"></div>
-            <div class="eq-bar-bottom"></div>
-          </div>
-          <div class="eq-bar">
-            <div class="eq-bar-top"></div>
-            <div class="eq-bar-bottom"></div>
-          </div>
-          <div class="eq-bar">
-            <div class="eq-bar-top"></div>
-            <div class="eq-bar-bottom"></div>
-          </div>
-          <div class="eq-bar">
-            <div class="eq-bar-top"></div>
-            <div class="eq-bar-bottom"></div>
-          </div>
+          <!-- 6 bars, single shape, center pivot, shimmer + scale animations -->
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
         </div>
       </div>
     </div>
@@ -292,7 +271,7 @@
   </div>
 
   <script>
-    // Reveal tagline after a short delay
+    // Show tagline after a short delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
