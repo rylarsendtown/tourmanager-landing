@@ -17,7 +17,6 @@ body {
   position: relative; /* so we can position the noise overlay */
 }
 
-/* Extremely subtle repeating radial gradient for noise effect */
 body::before {
   content: "";
   pointer-events: none;
@@ -34,7 +33,7 @@ body::before {
   );
   background-size: 3px 3px;
   opacity: 0.02;
-  z-index: 0;
+  z-index: 0; /* behind all content */
 }
 
 /* Safe-area container for iOS dynamic viewport */
@@ -43,11 +42,12 @@ body::before {
   height: 100vh;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
-  z-index: 1;
+  z-index: 1; /* content above noise overlay */
 }
 
 /* --- HAMBURGER NAVBAR STYLING --- */
-.header {
+/* Top fixed navbar */
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -58,67 +58,80 @@ body::before {
   display: flex;
   align-items: center;
   z-index: 1000;
+  padding: 0 20px;
 }
 
-.header .hamburger {
-  font-size: 2rem;
-  color: #fff;
+/* Hamburger icon within navbar */
+.navbar .hamburger {
+  width: 30px;
+  height: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   cursor: pointer;
-  margin-left: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.header .title-wrap {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  pointer-events: none; /* center text is non-clickable */
+.navbar .hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: #fff;
+  transition: 0.4s;
 }
 
-.header .logo-title {
-  font-size: 1.6rem;
-  margin-left: 20px;
-  text-transform: uppercase;
+/* Animate hamburger into an "X" when active */
+.navbar .hamburger.active span:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.navbar .hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar .hamburger.active span:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Navbar title text */
+.navbar .nav-title {
+  margin-left: 15px;
+  font-size: 1.2rem;
   color: #fff;
-  text-decoration: none;
 }
 
-/* Navigation overlay (hamburger menu) */
-.nav-overlay {
+/* Slide-out navigation menu */
+.nav-links {
   position: fixed;
   top: 0;
-  left: -100%;
+  left: -100%; /* hidden off-screen */
   width: 60%;
   max-width: 280px;
   height: 100vh;
-  background: #222;
+  background: #222; /* darker grey to match theme */
+  padding-top: 60px; /* account for navbar height */
   transition: left 0.3s ease;
-  padding: 60px 20px;
   z-index: 999;
 }
 
-.nav-overlay.open {
+.nav-links.open {
   left: 0;
 }
 
-.nav-overlay a {
+.nav-links a {
   display: block;
   margin: 1.5em 0;
-  text-decoration: none;
-  color: #fff;
+  padding: 0 20px;
   font-size: 1rem;
-}
-
-.nav-overlay .close-btn {
-  font-size: 2rem;
   color: #fff;
-  cursor: pointer;
-  margin-bottom: 2rem;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* --- Main Page Specific Styles --- */
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- MAIN PAGE SPECIFIC STYLES --- */
 
 /* Logo row: Title container + Equalizer side by side */
 .logo-row {
@@ -126,7 +139,7 @@ body::before {
   top: 61.8%;
   right: 6.18%;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-end; /* align text & bars along the same baseline */
   gap: 2vw;
   opacity: 0;
   animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
@@ -150,7 +163,7 @@ body::before {
   height: 13vw;
 }
 
-/* Top line (TourManager) at 8vw */
+/* Top line (TourManager) */
 .title-top {
   font-size: 8vw;
   line-height: 1;
@@ -159,7 +172,7 @@ body::before {
   margin: 0;
 }
 
-/* Bottom line (API) at 5vw */
+/* Bottom line (API) */
 .title-bottom {
   font-size: 5vw;
   line-height: 1;
