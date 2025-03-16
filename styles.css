@@ -47,6 +47,9 @@ body::before {
   background: #444;
   padding: 2.5vw 2vw;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Align hamburger and title */
@@ -55,43 +58,12 @@ body::before {
   align-items: center;
 }
 
-/* Hamburger button: now to the left of title */
-.hamburger {
-  width: 3vw;
-  height: 3vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  margin-right: 2vw; /* Space between menu and title */
-}
-
-.hamburger span {
-  display: block;
-  height: 0.3vw;
-  width: 100%;
-  background: #fff;
-  transition: 0.4s;
-}
-
-/* Smooth Animation: Hamburger → X */
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(0.5vw, 0.5vw);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(0.5vw, -0.5vw);
-}
-
-/* Title Container: Lowered, API Right-Aligned */
+/* Title Container */
 .title-container-navbar {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 5vw; /* Lowered */
 }
 
 .title-container-navbar .title-top {
@@ -102,7 +74,7 @@ body::before {
 
 .title-container-navbar .title-bottom {
   font-size: 3vw;
-  text-align: right; /* Align API text to right */
+  text-align: right;
   width: 100%;
 }
 
@@ -128,10 +100,41 @@ body::before {
   animation: barAnim 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
 }
 
-/* Slide-Out Navigation Menu */
+/* ------------------------------
+   3) Hamburger Button with X Animation
+------------------------------ */
+.hamburger {
+  width: 3vw;
+  height: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  margin-bottom: 1vw; /* Space below title */
+}
+
+.hamburger span {
+  display: block;
+  height: 0.3vw;
+  width: 100%;
+  background: #fff;
+  transition: 0.4s;
+}
+
+/* Improved Smooth Animation: Hamburger → X */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(0.35vw, 0.35vw);
+}
+.hamburger.active span:nth-child(2) {
+  transform: rotate(-45deg) translate(0.35vw, -0.35vw);
+}
+
+/* Slide-Out Navigation Menu (Now Below Title) */
 .nav-menu {
   position: fixed;
-  top: 15vw; /* Below header */
+  top: 15vw;
   left: -100%;
   width: 60%;
   max-width: 280px;
@@ -160,7 +163,7 @@ body::before {
 }
 
 /* ------------------------------
-   3) Main Content and Tagline
+   4) Main Content and Tagline
 ------------------------------ */
 .safe-area {
   margin-top: 15vw;
@@ -194,7 +197,7 @@ body::before {
 }
 
 /* ------------------------------
-   4) Equalizer Animation Keyframes
+   5) Equalizer Animation Keyframes
 ------------------------------ */
 @keyframes barAnim {
   0%, 100% { transform: scaleY(0.4); }
