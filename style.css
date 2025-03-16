@@ -1,0 +1,332 @@
+/* styles.css */
+
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base styling with subtle noise overlay */
+body {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background: #444; /* primary color theme */
+  color: #fff;
+  text-transform: uppercase;
+  position: relative; /* so we can position the noise overlay */
+}
+
+/* Extremely subtle repeating radial gradient for noise effect */
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-radial-gradient(
+    rgba(255, 255, 255, 0.02) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 100%
+  );
+  background-size: 3px 3px;
+  opacity: 0.02;
+  z-index: 0;
+}
+
+/* Safe-area container for iOS dynamic viewport */
+.safe-area {
+  position: relative;
+  height: 100vh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  z-index: 1;
+}
+
+/* --- HAMBURGER NAVBAR STYLING --- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #444;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.header .hamburger {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .title-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* center text is non-clickable */
+}
+
+.header .logo-title {
+  font-size: 1.6rem;
+  margin-left: 20px;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Navigation overlay (hamburger menu) */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  max-width: 280px;
+  height: 100vh;
+  background: #222;
+  transition: left 0.3s ease;
+  padding: 60px 20px;
+  z-index: 999;
+}
+
+.nav-overlay.open {
+  left: 0;
+}
+
+.nav-overlay a {
+  display: block;
+  margin: 1.5em 0;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.nav-overlay .close-btn {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+/* --- Main Page Specific Styles --- */
+
+/* Logo row: Title container + Equalizer side by side */
+.logo-row {
+  position: absolute;
+  top: 61.8%;
+  right: 6.18%;
+  display: flex;
+  align-items: flex-end;
+  gap: 2vw;
+  opacity: 0;
+  animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
+}
+
+@keyframes fadeLogoIn {
+  to { opacity: 1; }
+}
+
+/*
+  Title container (logo):
+  - “TourManager” at 8vw
+  - “API” at 5vw
+  Total height ~13vw.
+*/
+.title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 13vw;
+}
+
+/* Top line (TourManager) at 8vw */
+.title-top {
+  font-size: 8vw;
+  line-height: 1;
+  letter-spacing: -1px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Bottom line (API) at 5vw */
+.title-bottom {
+  font-size: 5vw;
+  line-height: 1;
+  font-weight: bold;
+  margin: 0;
+}
+
+/*
+  Equalizer container:
+  - Matches the height of the title container (13vw)
+*/
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 13vw;
+}
+
+/* Row for the 6 equalizer bars */
+.equalizer-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1vw;
+  overflow: visible;
+  height: 100%;
+}
+
+/* Equalizer bar styling */
+.eq-bar {
+  position: relative;
+  width: 1vw;
+  height: 100%;
+  background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
+  background-size: 200% 100%;
+  border-radius: 0.5vw;
+  transform: scaleY(0.4);
+  transform-origin: center;
+}
+
+/* Bar animations for each of the 6 bars */
+.eq-bar:nth-child(1) {
+  animation: barAnim1 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+.eq-bar:nth-child(2) {
+  animation: barAnim2 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+.eq-bar:nth-child(3) {
+  animation: barAnim3 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+.eq-bar:nth-child(4) {
+  animation: barAnim4 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+.eq-bar:nth-child(5) {
+  animation: barAnim5 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+.eq-bar:nth-child(6) {
+  animation: barAnim6 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+
+/* Tagline styling */
+.tagline {
+  position: absolute;
+  top: 38.2%;
+  right: 6.18%;
+  width: 80%;
+  font-size: 3.82vw;
+  font-weight: normal;
+  line-height: 1.2;
+  text-transform: lowercase;
+  letter-spacing: 0.2em;
+  text-align: right;
+  color: transparent;
+  background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  opacity: 0;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.tagline.visible {
+  visibility: visible;
+  animation: fadeInTagline 1.5s ease-in forwards, shimmerFlowTagline 6.5s linear -1.5s infinite;
+}
+
+@keyframes fadeInTagline {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes shimmerFlowTagline {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Bar scale animations */
+@keyframes barAnim1 {
+  0%, 100% { transform: scaleY(0.4); }
+  15% { transform: scaleY(1.0); }
+  30% { transform: scaleY(0.6); }
+  50% { transform: scaleY(0.8); }
+  75% { transform: scaleY(1.0); }
+}
+
+@keyframes barAnim2 {
+  0%, 100% { transform: scaleY(0.5); }
+  20% { transform: scaleY(0.9); }
+  40% { transform: scaleY(0.6); }
+  60% { transform: scaleY(1.0); }
+  80% { transform: scaleY(0.7); }
+}
+
+@keyframes barAnim3 {
+  0%, 100% { transform: scaleY(0.3); }
+  25% { transform: scaleY(0.8); }
+  50% { transform: scaleY(1.0); }
+  70% { transform: scaleY(0.4); }
+  85% { transform: scaleY(0.9); }
+}
+
+@keyframes barAnim4 {
+  0%, 100% { transform: scaleY(0.6); }
+  20% { transform: scaleY(0.9); }
+  35% { transform: scaleY(0.5); }
+  55% { transform: scaleY(1.0); }
+  75% { transform: scaleY(0.7); }
+}
+
+@keyframes barAnim5 {
+  0%, 100% { transform: scaleY(0.4); }
+  10% { transform: scaleY(1.0); }
+  30% { transform: scaleY(0.5); }
+  50% { transform: scaleY(0.9); }
+  80% { transform: scaleY(0.6); }
+}
+
+@keyframes barAnim6 {
+  0%, 100% { transform: scaleY(0.5); }
+  25% { transform: scaleY(0.7); }
+  40% { transform: scaleY(1.0); }
+  60% { transform: scaleY(0.4); }
+  90% { transform: scaleY(1.0); }
+}
+
+/* Shimmer flow for bar backgrounds */
+@keyframes shimmerFlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Media Query for large screens */
+@media (min-width: 1600px) {
+  .title-top {
+    font-size: 12rem;
+  }
+  .title-bottom {
+    font-size: 7.5rem;
+  }
+  .title-container {
+    height: calc(12rem + 7.5rem);
+  }
+  .equalizer {
+    height: 19.5rem;
+  }
+  .eq-bar {
+    width: 1.5rem;
+  }
+}
