@@ -4,24 +4,26 @@
   <meta charset="utf-8" />
   <title>TourManagerAPI - Documentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+  
   <!-- Redoc Script -->
   <script src="https://cdn.redocly.com/redoc/v2.4.0/bundles/redoc.standalone.js"></script>
 
   <style>
-    /* =========================
-       1. BASE STYLES
-    ========================== */
+    /**********************************************
+     * 1) BASE STYLES
+     **********************************************/
     body {
       margin: 0;
-      font-family: Helvetica, Arial, sans-serif;
-      background: #444; /* primary color theme */
+      font-family: Helvetica, Arial, sans-serif; 
+      background: #444; /* dark gray background */
       color: #fff;
-      text-transform: uppercase;
-      position: relative; /* so we can place a noise overlay via ::before */
+      text-transform: uppercase; 
+      position: relative; /* for noise overlay */
     }
-    /* Subtle repeating radial gradient for the noise effect */
+    /* Subtle repeating radial gradient noise */
     body::before {
       content: "";
       pointer-events: none;
@@ -35,22 +37,21 @@
       );
       background-size: 3px 3px;
       opacity: 0.02;
-      z-index: 0; /* behind all content */
+      z-index: 0; /* behind everything */
     }
 
-    /* =========================
-       2. HAMBURGER NAV
-    ========================== */
+    /**********************************************
+     * 2) HAMBURGER NAV
+     **********************************************/
+    /* Navbar container (hamburger + optional text) */
     .navbar {
       position: absolute;
       top: 10px;
       left: 10px;
-      z-index: 2; /* above the noise overlay */
+      z-index: 9999; /* ensures it's above the Redoc container */
       display: flex;
       align-items: center;
-      /* so the hamburger is a clickable region */
     }
-
     /* Hamburger icon container */
     .hamburger {
       width: 30px;
@@ -60,7 +61,6 @@
       cursor: pointer;
       margin-right: 1em;
     }
-    /* The 3 lines inside the hamburger */
     .hamburger span {
       background: #fff;
       height: 3px;
@@ -70,12 +70,10 @@
       left: 0;
       transition: 0.4s;
     }
-    /* Positions for the 3 lines */
     .hamburger span:nth-child(1) { top: 0; }
     .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
     .hamburger span:nth-child(3) { bottom: 0; }
-
-    /* When nav is open, transform lines into an X */
+    /* Animate into an 'X' when active */
     .hamburger.active span:nth-child(1) {
       transform: translateY(10px) rotate(45deg);
     }
@@ -86,75 +84,76 @@
       transform: translateY(-10px) rotate(-45deg);
     }
 
-    /* The nav-links container (slides in from left) */
+    /* Slide-out menu itself */
     .nav-links {
       position: fixed;
       top: 0;
-      left: -200px; /* hidden offscreen by default */
+      left: -200px; /* hidden offscreen */
       width: 200px;
       height: 100%;
       background: #333;
-      padding-top: 60px; /* space for hamburger row */
+      padding-top: 60px; /* space above for hamburger row */
       box-shadow: 2px 0 5px rgba(0,0,0,0.5);
       transition: left 0.4s ease;
+      z-index: 9998; 
     }
     .nav-links a {
       display: block;
       color: #fff;
       text-decoration: none;
       padding: 1em;
-      font-size: 1em;
+      font-size: 0.9em;
       border-bottom: 1px solid rgba(255,255,255,0.2);
     }
     .nav-links a:hover {
       background: rgba(255,255,255,0.1);
     }
-
     /* Show the menu when .open is applied */
     .nav-links.open {
       left: 0;
     }
 
-    /* =========================
-       3. REDOC WRAPPER
-    ========================== */
+    /**********************************************
+     * 3) REDOC WRAPPER
+     **********************************************/
     .safe-area {
       position: relative;
-      height: 100dvh;
+      min-height: 100vh; /* or 100dvh if you prefer */
       padding: env(safe-area-inset-top) env(safe-area-inset-right)
                env(safe-area-inset-bottom) env(safe-area-inset-left);
-      z-index: 1; /* content above the noise overlay */
+      z-index: 1; /* above the noise overlay */
     }
 
+    /* The Redoc container with a white background. 
+       We also override text-transform to normal so
+       the docs remain readable in mixed case. */
     #redoc {
       width: 90%;
       max-width: 1200px;
-      margin: 80px auto; /* spacing from top & bottom */
+      margin: 80px auto 40px; 
       background: #fff;
       color: #333;
       border-radius: 4px;
       overflow: hidden;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-transform: none; /* allow normal case inside docs */
+      font-family: Helvetica, Arial, sans-serif; /* match main font */
     }
 
-    /* Lowercase the Redoc text if you prefer, since we have text-transform: uppercase globally. 
-       Usually Redoc itself sets font styles, so you might not need this. 
-       But if you do: 
-       #redoc * { text-transform: none !important; } 
-    */
-
+    /* If you want to force Redoc’s internal text to uppercase,
+       remove text-transform: none above. 
+       Or if you want the entire site in uppercase, do so. 
+       Typically, docs read better in normal case, so we override. */
   </style>
 </head>
-
 <body>
-  <!-- 1) Hamburger + Title row -->
+  <!-- 1) The Navbar with Hamburger -->
   <div class="navbar">
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <!-- You can show a small page title here, or remove if not needed -->
     <div style="font-size:1.2em;">Docs</div>
   </div>
 
@@ -165,12 +164,12 @@
     <!-- Add more links if desired -->
   </div>
 
+  <!-- 3) Safe-area + Redoc container -->
   <div class="safe-area">
-    <!-- 3) The Redoc container where the spec is rendered -->
     <div id="redoc"></div>
   </div>
 
-  <!-- 4) The static OpenAPI JSON spec -->
+  <!-- 4) Static OpenAPI spec (with external references removed) -->
   <script id="openapi-spec" type="application/json">
   {
     "openapi": "3.1.0",
@@ -648,14 +647,15 @@
   }
   </script>
 
+  <!-- 5) Initialize Redoc + hamburger logic -->
   <script>
-    // 5) Init Redoc once the DOM is ready
+    // Init Redoc once DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
       const spec = JSON.parse(document.getElementById('openapi-spec').innerText);
       Redoc.init(spec, {}, document.getElementById('redoc'));
     });
 
-    // 6) Hamburger toggle
+    // Hamburger toggle logic
     const hamburger = document.getElementById('hamburger');
     const navMenu   = document.getElementById('navMenu');
 
