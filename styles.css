@@ -9,19 +9,19 @@
 
 /* Base styling with subtle noise overlay */
 body {
-  margin: 0;
   font-family: Helvetica, Arial, sans-serif;
   background: #444; /* primary color theme */
   color: #fff;
   text-transform: uppercase;
-  position: relative; /* for noise overlay */
+  position: relative;
+  margin: 0;
 }
 
 body::before {
   content: "";
   pointer-events: none;
   position: fixed;
-  top: 0;
+  top: 0; 
   left: 0;
   width: 100%;
   height: 100%;
@@ -36,32 +36,33 @@ body::before {
   z-index: 0;
 }
 
-/* Safe-area container for iOS dynamic viewport */
+/* Safe-area container for iOS dynamic viewport; pushed down to avoid overlapping the navbar */
 .safe-area {
   position: relative;
-  height: 100vh;
+  margin-top: calc(13vw + 10px); /* navbar height (13vw) + small extra space */
+  height: calc(100vh - (13vw + 10px));
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
   z-index: 1;
 }
 
 /* --- NAVBAR STYLING --- */
-/* Fixed navbar using golden ratio dimensions */
+/* Fixed navbar positioned with a slight top/left gap */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 13vw;  /* 8vw + 5vw based on our design ratios */
+  top: 10px; /* small gap from the top */
+  left: 10px;
+  width: calc(100% - 20px);
+  min-height: 13vw;  /* golden ratio height (8vw + 5vw equivalent) */
   background: #444;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   display: flex;
   align-items: center;
   padding: 0 2vw;
   z-index: 1000;
 }
 
-/* Hamburger icon inside navbar */
+/* Hamburger icon styling */
 .navbar .hamburger {
   width: 4vw;
   height: 4vw;
@@ -93,7 +94,13 @@ body::before {
   transform: translateY(-1vw) rotate(-45deg);
 }
 
-/* Title container in navbar using golden ratio scaling */
+/* Container for title and equalizer in the navbar */
+.title-equalizer-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Title container for navbar (scaled down compared to full-page design) */
 .title-container-navbar {
   display: flex;
   flex-direction: column;
@@ -102,7 +109,7 @@ body::before {
 }
 
 .title-container-navbar .title-top {
-  font-size: 4vw; /* scaled down from 8vw for navbar */
+  font-size: 4vw;
   line-height: 1;
   letter-spacing: -0.5vw;
   font-weight: bold;
@@ -110,22 +117,58 @@ body::before {
 }
 
 .title-container-navbar .title-bottom {
-  font-size: 2.5vw; /* scaled down from 5vw for navbar */
+  font-size: 2.5vw;
   line-height: 1;
   font-weight: bold;
   margin: 0;
 }
 
-/* --- Slide-out Navigation Menu --- */
+/* Equalizer container in the navbar */
+.equalizer-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4vw;
+  margin-left: 1vw;
+}
+
+.equalizer-navbar .equalizer-row {
+  display: flex;
+  gap: 0.5vw;
+}
+
+.equalizer-navbar .eq-bar {
+  width: 0.5vw;
+  height: 100%;
+  background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
+  background-size: 200% 100%;
+  border-radius: 0.25vw;
+  transform: scaleY(0.4);
+  transform-origin: center;
+  animation: barAnim 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+}
+
+/* Keyframe for equalizer bar scaling (simplified for navbar) */
+@keyframes barAnim {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1.0); }
+}
+
+@keyframes shimmerFlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- SLIDE-OUT NAVIGATION MENU --- */
 .nav-links {
   position: fixed;
   top: 0;
-  left: -100%; /* Hidden off-screen */
+  left: -100%;
   width: 60%;
   max-width: 280px;
   height: 100vh;
-  background: #222; /* darker grey to match theme */
-  padding-top: 13vw; /* leave space for navbar */
+  background: #222;
+  padding-top: calc(13vw + 10px);
   transition: left 0.3s ease;
   z-index: 999;
 }
@@ -147,8 +190,8 @@ body::before {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* --- MAIN CONTENT --- */
-/* Tagline styling with improved contrast (white on grey) */
+/* --- MAIN CONTENT / TAGLINE --- */
+/* Tagline styling with high contrast (white text on grey) */
 .tagline {
   position: absolute;
   top: 50%;
@@ -172,66 +215,7 @@ body::before {
   opacity: 1;
 }
 
-/* --- LOGO EQUALIZER ANIMATIONS (if still used elsewhere) --- */
-
-/* (The equalizer animations from your previous design are retained here.
-   If you no longer need them on this page, they may be removed.) */
-
-/* Bar scale animations and shimmer effects for equalizer bars */
-@keyframes barAnim1 {
-  0%, 100% { transform: scaleY(0.4); }
-  15% { transform: scaleY(1.0); }
-  30% { transform: scaleY(0.6); }
-  50% { transform: scaleY(0.8); }
-  75% { transform: scaleY(1.0); }
-}
-
-@keyframes barAnim2 {
-  0%, 100% { transform: scaleY(0.5); }
-  20% { transform: scaleY(0.9); }
-  40% { transform: scaleY(0.6); }
-  60% { transform: scaleY(1.0); }
-  80% { transform: scaleY(0.7); }
-}
-
-@keyframes barAnim3 {
-  0%, 100% { transform: scaleY(0.3); }
-  25% { transform: scaleY(0.8); }
-  50% { transform: scaleY(1.0); }
-  70% { transform: scaleY(0.4); }
-  85% { transform: scaleY(0.9); }
-}
-
-@keyframes barAnim4 {
-  0%, 100% { transform: scaleY(0.6); }
-  20% { transform: scaleY(0.9); }
-  35% { transform: scaleY(0.5); }
-  55% { transform: scaleY(1.0); }
-  75% { transform: scaleY(0.7); }
-}
-
-@keyframes barAnim5 {
-  0%, 100% { transform: scaleY(0.4); }
-  10% { transform: scaleY(1.0); }
-  30% { transform: scaleY(0.5); }
-  50% { transform: scaleY(0.9); }
-  80% { transform: scaleY(0.6); }
-}
-
-@keyframes barAnim6 {
-  0%, 100% { transform: scaleY(0.5); }
-  25% { transform: scaleY(0.7); }
-  40% { transform: scaleY(1.0); }
-  60% { transform: scaleY(0.4); }
-  90% { transform: scaleY(1.0); }
-}
-
-@keyframes shimmerFlow {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Media Query for large screens */
+/* --- MEDIA QUERY FOR LARGE SCREENS --- */
 @media (min-width: 1600px) {
   .title-container-navbar .title-top {
     font-size: 5rem;
