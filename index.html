@@ -8,48 +8,59 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fixed Navbar with Hamburger Menu and Title Container in the Top Left -->
+  <!-- Fixed Navbar with Hamburger Menu, Title Container, and Equalizer -->
   <div class="navbar">
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <div class="title-container-navbar">
-      <h1 class="title-top">TourManager</h1>
-      <h2 class="title-bottom">API</h2>
+    <div class="title-equalizer-container">
+      <div class="title-container-navbar">
+        <h1 class="title-top">TourManager</h1>
+        <h2 class="title-bottom">API</h2>
+      </div>
+      <div class="equalizer-navbar">
+        <div class="equalizer-row">
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+        </div>
+      </div>
     </div>
   </div>
-  
+
   <!-- Slide-out Navigation Menu -->
   <div class="nav-links" id="navMenu">
     <a href="index.html">Home</a>
     <a href="docs.html">API Docs</a>
     <!-- Additional links if desired -->
   </div>
-  
+
   <!-- Main Content Area -->
   <div class="safe-area">
-    <!-- You can include additional main content here.
-         For now we include a tagline below the navbar. -->
+    <!-- Main content goes here; for example, a tagline -->
     <div class="main-content">
       <div class="tagline" id="tagline">
         orchestrating concert data
       </div>
     </div>
   </div>
-  
+
   <script>
-    // After page load, show the tagline after a 2-second delay
+    // Show the tagline after a delay (after navbar animation)
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
       }, 2000);
     });
-    
-    // Toggle the hamburger nav menu on click
+
+    // Toggle the hamburger menu and animate the icon
     const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
+    const navMenu   = document.getElementById('navMenu');
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       navMenu.classList.toggle('open');
