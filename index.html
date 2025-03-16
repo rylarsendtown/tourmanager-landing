@@ -33,18 +33,7 @@
       opacity: 0.02; /* Adjust to taste (0.02–0.05) */
       z-index: 0; /* behind all content */
     }
-    /* Navigation link in the upper left-hand corner */
-    nav {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 1.5vw;
-      z-index: 2; /* above noise overlay */
-    }
-    nav a {
-      color: #fff;
-      text-decoration: underline;
-    }
+
     /* Safe-area container for iOS dynamic viewport */
     .safe-area {
       position: relative;
@@ -53,6 +42,58 @@
                env(safe-area-inset-bottom) env(safe-area-inset-left);
       z-index: 1; /* content above noise overlay */
     }
+
+    /* ===== HAMBURGER NAV STYLES ===== */
+    .hamburger-nav {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2; /* above noise overlay */
+    }
+    /* The hamburger icon itself */
+    .hamburger-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      position: relative;
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+
+    /* The actual menu that slides in/out */
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      overflow: hidden;
+      background: rgba(0,0,0,0.7);
+      transition: width 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .nav-menu.open {
+      width: 60%; /* or whatever width you like for the slide-out menu */
+      max-width: 300px;
+    }
+    .nav-menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+
     /* Logo row: Title container + Equalizer side by side */
     .logo-row {
       position: absolute;
@@ -61,6 +102,7 @@
       display: flex;
       align-items: flex-end; /* align text & bars along the same baseline */
       gap: 2vw;
+
       /* Fade in from opacity 0 to 1 over 1.5s, starting at 0.5s */
       opacity: 0;
       animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
@@ -68,12 +110,8 @@
     @keyframes fadeLogoIn {
       to { opacity: 1; }
     }
-    /*
-      Title container (logo):
-      - “TourManager” => 8vw
-      - “API” => 5vw
-      => total ~13vw tall
-    */
+
+    /* Title container (logo) */
     .title-container {
       display: flex;
       flex-direction: column;
@@ -81,7 +119,7 @@
       align-items: flex-end;
       height: 13vw; /* 8vw + 5vw lines */
     }
-    /* Top line (TourManager) at 8vw */
+    /* “TourManager” => 8vw */
     .title-top {
       font-size: 8vw;
       line-height: 1;
@@ -89,69 +127,62 @@
       font-weight: bold;
       margin: 0;
     }
-    /* Bottom line (API) at 5vw */
+    /* “API” => 5vw */
     .title-bottom {
       font-size: 5vw;
       line-height: 1;
       font-weight: bold;
       margin: 0;
     }
-    /*
-      Equalizer container:
-      - also 13vw tall to match the text block
-    */
+
+    /* Equalizer container, also 13vw tall to match the text block */
     .equalizer {
       display: flex;
       align-items: flex-end;
       justify-content: center;
       height: 13vw;
     }
-    /* Row for the 6 bars, each 1vw wide, 13vw tall total. */
+    /* Row for the 6 bars */
     .equalizer-row {
       display: flex;
       align-items: flex-end;
       justify-content: center;
       gap: 1vw;
-      overflow: visible; /* ensure no clipping if bars scale bigger */
+      overflow: visible;
       height: 100%;
     }
-    /* Single bar that extends from center, with no seam. */
+    /* Single bar styling */
     .eq-bar {
       position: relative;
       width: 1vw;
       height: 100%;
       background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
-      background-size: 200% 100%; /* For the shimmer effect */
+      background-size: 200% 100%; /* For shimmer effect */
       border-radius: 0.5vw;
       transform: scaleY(0.4);
       transform-origin: center;
     }
     /* Each bar has 2 animations: unique scale + shimmer flow */
     .eq-bar:nth-child(1) {
-      animation: barAnim1 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
+      animation: barAnim1 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
     .eq-bar:nth-child(2) {
-      animation: barAnim2 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
+      animation: barAnim2 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
     .eq-bar:nth-child(3) {
-      animation: barAnim3 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
+      animation: barAnim3 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
     .eq-bar:nth-child(4) {
-      animation: barAnim4 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
+      animation: barAnim4 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
     .eq-bar:nth-child(5) {
-      animation: barAnim5 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
+      animation: barAnim5 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
     .eq-bar:nth-child(6) {
-      animation: barAnim6 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
+      animation: barAnim6 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
-    /* Tagline block (unchanged) */
+
+    /* Tagline block */
     .tagline {
       position: absolute;
       top: 38.2%;
@@ -186,7 +217,8 @@
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-    /* Realistic bar scale animations for each of the 6 bars */
+
+    /* Bar scale animations for each of the 6 bars */
     @keyframes barAnim1 {
       0%, 100% { transform: scaleY(0.4); }
       15%      { transform: scaleY(1.0); }
@@ -229,37 +261,47 @@
       60%      { transform: scaleY(0.4); }
       90%      { transform: scaleY(1.0); }
     }
-    /* Shimmer flow for bar backgrounds, ~2s cycle */
+    /* Shimmer flow for bar backgrounds (~2s cycle) */
     @keyframes shimmerFlow {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-    /* MEDIA QUERY for large screens:
-       Caps the font sizes so they don’t become huge on 4K monitors, etc. */
+
+    /* MEDIA QUERY for large screens: cap font sizes so they don’t become huge */
     @media (min-width: 1600px) {
       .title-top {
-        font-size: 12rem; /* or some max cap you prefer */
+        font-size: 12rem;
       }
       .title-bottom {
-        font-size: 7.5rem; /* maintain ~8:5 ratio => 12:7.5 */
+        font-size: 7.5rem;
       }
       .title-container {
-        height: calc(12rem + 7.5rem); /* total 19.5rem */
+        height: calc(12rem + 7.5rem);
       }
       .equalizer {
         height: 19.5rem;
       }
       .eq-bar {
-        width: 1.5rem; /* scale bar width up a bit */
+        width: 1.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Navigation link in upper left-hand corner -->
-  <nav>
-    <a href="docs.html">API Documentation</a>
-  </nav>
+  <!-- Hamburger nav container -->
+  <div class="hamburger-nav">
+    <button class="hamburger-btn" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-menu" id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="docs.html">API Docs</a>
+      <!-- Add more links if desired -->
+    </div>
+  </div>
+
   <div class="safe-area">
     <!-- Logo row: fade in first, then tagline appears -->
     <div class="logo-row">
@@ -283,14 +325,20 @@
       orchestrating concert data
     </div>
   </div>
+
   <script>
-    // On page load, fade in the logo row (handled by CSS animation).
-    // Then show the tagline after the logo fade completes (~2s).
+    // Show tagline after logo fade completes
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
-      }, 2000); 
+      }, 2000);
     });
+
+    // Toggle the hamburger nav
+    function toggleMenu() {
+      const menu = document.getElementById('navMenu');
+      menu.classList.toggle('open');
+    }
   </script>
 </body>
 </html>
