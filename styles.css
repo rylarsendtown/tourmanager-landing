@@ -1,22 +1,24 @@
 /* styles.css */
 
-/* Base Reset */
+/* ------------------------------
+   1) Base Reset and Global Styles
+------------------------------ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Base styling with subtle noise overlay */
 body {
   font-family: Helvetica, Arial, sans-serif;
-  background: #444; /* primary color theme */
+  background: #444; /* primary dark grey theme */
   color: #fff;
   text-transform: uppercase;
   position: relative;
   margin: 0;
 }
 
+/* Subtle repeating radial noise overlay */
 body::before {
   content: "";
   pointer-events: none;
@@ -36,80 +38,59 @@ body::before {
   z-index: 0;
 }
 
-/* Safe-area container for iOS dynamic viewport; pushed down to avoid overlapping the navbar */
+/* ------------------------------
+   2) Safe-Area for Main Content
+------------------------------ */
+/* The safe-area is pushed down by the header height (which we set to 21vw) */
 .safe-area {
   position: relative;
-  margin-top: calc(13vw + 10px); /* navbar height (13vw) + small extra space */
-  height: calc(100vh - (13vw + 10px));
+  margin-top: 21vw; /* header height */
+  height: calc(100vh - 21vw);
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
   z-index: 1;
 }
 
-/* --- NAVBAR STYLING --- */
-/* Fixed navbar positioned with a slight top/left gap */
+/* ------------------------------
+   3) Navbar and Header-Left Container
+------------------------------ */
+/* Fixed header positioned in the top left.
+   Total header height is set to 21vw (based on golden ratio proportions: 13vw for title + 5vw for equalizer + 3vw for hamburger, approximately). */
 .navbar {
   position: fixed;
-  top: 10px; /* small gap from the top */
+  top: 10px;
   left: 10px;
   width: calc(100% - 20px);
-  min-height: 13vw;  /* golden ratio height (8vw + 5vw equivalent) */
+  height: 21vw;
   background: #444;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   padding: 0 2vw;
   z-index: 1000;
 }
 
-/* Hamburger icon styling */
-.navbar .hamburger {
-  width: 4vw;
-  height: 4vw;
+/* Header-left container holds the title container, equalizer, and hamburger menu in a vertical column */
+.header-left {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  margin-right: 2vw;
-}
-
-.navbar .hamburger span {
-  display: block;
-  height: 0.5vw;
-  width: 100%;
-  background: #fff;
-  transition: 0.4s;
-}
-
-/* Animate hamburger into an "X" when active */
-.navbar .hamburger.active span:nth-child(1) {
-  transform: translateY(1vw) rotate(45deg);
-}
-
-.navbar .hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.navbar .hamburger.active span:nth-child(3) {
-  transform: translateY(-1vw) rotate(-45deg);
-}
-
-/* Container for title and equalizer in the navbar */
-.title-equalizer-container {
-  display: flex;
-  align-items: center;
-}
-
-/* Title container for navbar (scaled down compared to full-page design) */
-.title-container-navbar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
 }
 
+/* ------------------------------
+   4) Title Container in Navbar
+------------------------------ */
+/* Title container maintains our golden ratio proportions.
+   Here the "TourManager" text is sized at 8vw and "API" at 5vw (total 13vw height). */
+.title-container-navbar {
+  height: 13vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .title-container-navbar .title-top {
-  font-size: 4vw;
+  font-size: 8vw;
   line-height: 1;
   letter-spacing: -0.5vw;
   font-weight: bold;
@@ -117,19 +98,21 @@ body::before {
 }
 
 .title-container-navbar .title-bottom {
-  font-size: 2.5vw;
+  font-size: 5vw;
   line-height: 1;
   font-weight: bold;
   margin: 0;
 }
 
-/* Equalizer container in the navbar */
+/* ------------------------------
+   5) Equalizer in Navbar
+------------------------------ */
+/* Equalizer container sized at 5vw height */
 .equalizer-navbar {
+  height: 5vw;
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 4vw;
-  margin-left: 1vw;
+  margin-top: 0.5vw;
 }
 
 .equalizer-navbar .equalizer-row {
@@ -148,7 +131,7 @@ body::before {
   animation: barAnim 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
 }
 
-/* Keyframe for equalizer bar scaling (simplified for navbar) */
+/* Keyframes for equalizer bar animation */
 @keyframes barAnim {
   0%, 100% { transform: scaleY(0.4); }
   50% { transform: scaleY(1.0); }
@@ -159,16 +142,52 @@ body::before {
   100% { background-position: -200% 0; }
 }
 
-/* --- SLIDE-OUT NAVIGATION MENU --- */
+/* ------------------------------
+   6) Hamburger Menu (Toggle)
+------------------------------ */
+/* Hamburger icon sized relative to viewport width; placed below the equalizer */
+.hamburger {
+  width: 3vw;
+  height: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-top: 0.5vw;
+}
+
+.hamburger span {
+  display: block;
+  height: 0.3vw;
+  width: 100%;
+  background: #fff;
+  transition: 0.4s;
+}
+
+/* When active, transform the spans into an "X" */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(0.8vw) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-0.8vw) rotate(-45deg);
+}
+
+/* ------------------------------
+   7) Slide-Out Navigation Menu
+------------------------------ */
+/* The nav menu slides in from the left and is positioned below the header */
 .nav-links {
   position: fixed;
-  top: 0;
+  top: 21vw; /* header height */
   left: -100%;
   width: 60%;
   max-width: 280px;
-  height: 100vh;
-  background: #222;
-  padding-top: calc(13vw + 10px);
+  height: calc(100vh - 21vw);
+  background: #222; /* dark grey to match theme */
+  padding-top: 1em;
   transition: left 0.3s ease;
   z-index: 999;
 }
@@ -183,44 +202,49 @@ body::before {
   font-size: 1rem;
   color: #fff;
   text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 .nav-links a:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
 }
 
-/* --- MAIN CONTENT / TAGLINE --- */
-/* Tagline styling with high contrast (white text on grey) */
+/* ------------------------------
+   8) Main Content / Tagline
+------------------------------ */
+.main-content {
+  padding: 1em;
+  text-align: center;
+}
+
 .tagline {
-  position: absolute;
-  top: 50%;
-  right: 2vw;
-  width: 90%;
   font-size: 3vw;
-  font-weight: normal;
-  line-height: 1.2;
-  text-transform: lowercase;
-  letter-spacing: 0.2em;
-  text-align: right;
   color: #fff;
   opacity: 0;
   visibility: hidden;
-  white-space: nowrap;
   transition: opacity 1.5s ease-in;
 }
 
 .tagline.visible {
-  visibility: visible;
   opacity: 1;
+  visibility: visible;
 }
 
-/* --- MEDIA QUERY FOR LARGE SCREENS --- */
+/* ------------------------------
+   9) Media Query for Large Screens
+------------------------------ */
 @media (min-width: 1600px) {
   .title-container-navbar .title-top {
     font-size: 5rem;
   }
   .title-container-navbar .title-bottom {
     font-size: 3rem;
+  }
+  .equalizer-navbar .eq-bar {
+    width: 0.7vw;
+  }
+  .hamburger {
+    width: 2.5vw;
+    height: 2.5vw;
   }
 }
