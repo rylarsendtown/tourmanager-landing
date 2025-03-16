@@ -33,7 +33,18 @@
       opacity: 0.02; /* Adjust to taste (0.02–0.05) */
       z-index: 0; /* behind all content */
     }
-
+    /* Navigation link in the upper left-hand corner */
+    nav {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 1.5vw;
+      z-index: 2; /* above noise overlay */
+    }
+    nav a {
+      color: #fff;
+      text-decoration: underline;
+    }
     /* Safe-area container for iOS dynamic viewport */
     .safe-area {
       position: relative;
@@ -42,7 +53,6 @@
                env(safe-area-inset-bottom) env(safe-area-inset-left);
       z-index: 1; /* content above noise overlay */
     }
-
     /* Logo row: Title container + Equalizer side by side */
     .logo-row {
       position: absolute;
@@ -51,7 +61,6 @@
       display: flex;
       align-items: flex-end; /* align text & bars along the same baseline */
       gap: 2vw;
-
       /* Fade in from opacity 0 to 1 over 1.5s, starting at 0.5s */
       opacity: 0;
       animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
@@ -59,7 +68,6 @@
     @keyframes fadeLogoIn {
       to { opacity: 1; }
     }
-
     /*
       Title container (logo):
       - “TourManager” => 8vw
@@ -88,7 +96,6 @@
       font-weight: bold;
       margin: 0;
     }
-
     /*
       Equalizer container:
       - also 13vw tall to match the text block
@@ -108,7 +115,6 @@
       overflow: visible; /* ensure no clipping if bars scale bigger */
       height: 100%;
     }
-
     /* Single bar that extends from center, with no seam. */
     .eq-bar {
       position: relative;
@@ -120,7 +126,6 @@
       transform: scaleY(0.4);
       transform-origin: center;
     }
-
     /* Each bar has 2 animations: unique scale + shimmer flow */
     .eq-bar:nth-child(1) {
       animation: barAnim1 3.25s ease-in-out infinite,
@@ -146,7 +151,6 @@
       animation: barAnim6 3.25s ease-in-out infinite,
                  shimmerFlow 2s linear infinite;
     }
-
     /* Tagline block (unchanged) */
     .tagline {
       position: absolute;
@@ -182,7 +186,6 @@
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-
     /* Realistic bar scale animations for each of the 6 bars */
     @keyframes barAnim1 {
       0%, 100% { transform: scaleY(0.4); }
@@ -226,13 +229,11 @@
       60%      { transform: scaleY(0.4); }
       90%      { transform: scaleY(1.0); }
     }
-
     /* Shimmer flow for bar backgrounds, ~2s cycle */
     @keyframes shimmerFlow {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-
     /* MEDIA QUERY for large screens:
        Caps the font sizes so they don’t become huge on 4K monitors, etc. */
     @media (min-width: 1600px) {
@@ -255,6 +256,10 @@
   </style>
 </head>
 <body>
+  <!-- Navigation link in upper left-hand corner -->
+  <nav>
+    <a href="docs.html">API Documentation</a>
+  </nav>
   <div class="safe-area">
     <!-- Logo row: fade in first, then tagline appears -->
     <div class="logo-row">
@@ -273,13 +278,11 @@
         </div>
       </div>
     </div>
-
     <!-- Tagline (appears after logo fade-in) -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
-
   <script>
     // On page load, fade in the logo row (handled by CSS animation).
     // Then show the tagline after the logo fade completes (~2s).
