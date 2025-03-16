@@ -4,22 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TourManagerAPI</title>
-  <!-- Link to the external CSS file for consistent theming -->
+  <!-- Link to our external CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fixed Navbar with Hamburger Menu, Title Container, and Equalizer -->
+  <!-- Fixed header in the upper left containing the title, equalizer, and hamburger toggle -->
   <div class="navbar">
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="title-equalizer-container">
+    <div class="header-left">
+      <!-- Title container (logo) using our golden ratio sizes -->
       <div class="title-container-navbar">
         <h1 class="title-top">TourManager</h1>
         <h2 class="title-bottom">API</h2>
       </div>
+      <!-- Equalizer below the title container -->
       <div class="equalizer-navbar">
         <div class="equalizer-row">
           <div class="eq-bar"></div>
@@ -30,20 +27,26 @@
           <div class="eq-bar"></div>
         </div>
       </div>
+      <!-- Hamburger menu toggle (three lines) below the equalizer -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </div>
 
-  <!-- Slide-out Navigation Menu -->
+  <!-- Slide-out Navigation Menu (appears below the header) -->
   <div class="nav-links" id="navMenu">
     <a href="index.html">Home</a>
     <a href="docs.html">API Docs</a>
     <!-- Additional links if desired -->
   </div>
 
-  <!-- Main Content Area -->
+  <!-- Main content area; we add a top margin so it is not overlapped by the fixed header -->
   <div class="safe-area">
-    <!-- Main content goes here; for example, a tagline -->
     <div class="main-content">
+      <!-- For example, a centered tagline -->
       <div class="tagline" id="tagline">
         orchestrating concert data
       </div>
@@ -51,19 +54,19 @@
   </div>
 
   <script>
-    // Show the tagline after a delay (after navbar animation)
+    // On page load, show the tagline after a 2-second delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
       }, 2000);
     });
 
-    // Toggle the hamburger menu and animate the icon
+    // Toggle the hamburger menu
     const hamburger = document.getElementById('hamburger');
     const navMenu   = document.getElementById('navMenu');
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navMenu.classList.toggle('open');
+      hamburger.classList.toggle('active'); // animate the lines into an "X"
+      navMenu.classList.toggle('open');     // slide the menu in/out
     });
   </script>
 </body>
