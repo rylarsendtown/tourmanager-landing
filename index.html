@@ -8,47 +8,43 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fixed header extending edge-to-edge -->
+  <!-- Fixed Header Extending Full Width -->
   <header class="site-header">
     <div class="header-content">
-      <!-- Title container (golden ratio proportions) -->
+      <!-- Hamburger Button (Now to the Left of Title) -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- Title Container (Lowered, API Right-Aligned) -->
       <div class="title-container-navbar">
         <h1 class="title-top">TOURMANAGER</h1>
         <h2 class="title-bottom">API</h2>
       </div>
-      <!-- Equalizer below title container -->
-      <div class="equalizer-navbar">
-        <div class="equalizer-row">
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-        </div>
-      </div>
-      <!-- Hamburger/Close toggle below equalizer -->
-      <div class="hamburger-container">
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="close-btn" id="closeBtn">
-          &#10005;
-        </div>
+    </div>
+
+    <!-- Equalizer Positioned Below Title -->
+    <div class="equalizer-navbar">
+      <div class="equalizer-row">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
       </div>
     </div>
   </header>
 
-  <!-- Slide-out navigation menu (appears below the header) -->
+  <!-- Slide-Out Navigation Menu -->
   <nav class="nav-menu" id="navMenu">
     <a href="index.html">Home</a>
     <a href="docs.html">API Docs</a>
-    <!-- Additional links can be added here -->
   </nav>
 
-  <!-- Main content area (pushed down by the header) -->
+  <!-- Main Content -->
   <main class="safe-area">
     <div class="main-content">
       <div class="tagline" id="tagline">
@@ -58,31 +54,20 @@
   </main>
 
   <script>
-    // Fade in the tagline after a 2-second delay.
+    // Fade in the tagline after a 2-second delay
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
       }, 2000);
     });
 
-    // Toggle hamburger/close icons and slide-out nav menu.
+    // Toggle hamburger menu with smooth animation
     const hamburger = document.getElementById('hamburger');
-    const closeBtn  = document.getElementById('closeBtn');
     const navMenu   = document.getElementById('navMenu');
 
-    // Initially show the hamburger and hide the close icon.
-    closeBtn.style.display = "none";
-
     hamburger.addEventListener('click', () => {
-      hamburger.style.display = "none";
-      closeBtn.style.display = "block";
-      navMenu.classList.add('open');
-    });
-
-    closeBtn.addEventListener('click', () => {
-      closeBtn.style.display = "none";
-      hamburger.style.display = "flex";
-      navMenu.classList.remove('open');
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('open');
     });
   </script>
 </body>
