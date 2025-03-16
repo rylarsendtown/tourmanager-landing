@@ -4,21 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TourManagerAPI</title>
-  <!-- Link to the external CSS file for consistent theming -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <!-- Fixed Header Extending Full Width -->
   <header class="site-header">
     <div class="header-content">
-      <!-- Hamburger Button (Now to the Left of Title) -->
-      <div class="hamburger" id="hamburger">
+      <!-- Hamburger Button (Now Below Title) -->
+      <button class="hamburger" id="hamburger">
         <span></span>
         <span></span>
-        <span></span>
-      </div>
+      </button>
 
-      <!-- Title Container (Lowered, API Right-Aligned) -->
+      <!-- Title Container -->
       <div class="title-container-navbar">
         <h1 class="title-top">TOURMANAGER</h1>
         <h2 class="title-bottom">API</h2>
@@ -38,7 +36,7 @@
     </div>
   </header>
 
-  <!-- Slide-Out Navigation Menu -->
+  <!-- Slide-Out Navigation Menu (Now Below Title) -->
   <nav class="nav-menu" id="navMenu">
     <a href="index.html">Home</a>
     <a href="docs.html">API Docs</a>
@@ -54,16 +52,16 @@
   </main>
 
   <script>
-    // Fade in the tagline after a 2-second delay
+    // Fade in tagline after page load
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
       }, 2000);
     });
 
-    // Toggle hamburger menu with smooth animation
+    // Toggle hamburger menu with proper X animation
     const hamburger = document.getElementById('hamburger');
-    const navMenu   = document.getElementById('navMenu');
+    const navMenu = document.getElementById('navMenu');
 
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
