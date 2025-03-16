@@ -4,686 +4,218 @@
   <meta charset="utf-8" />
   <title>TourManagerAPI - Documentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
   <!-- Redoc Script -->
   <script src="https://cdn.redocly.com/redoc/v2.4.0/bundles/redoc.standalone.js"></script>
-
-  <style>
-    /**********************************************
-     * 1) BASE STYLES
-     **********************************************/
-    body {
-      margin: 0;
-      font-family: Helvetica, Arial, sans-serif; 
-      background: #444; /* dark gray background */
-      color: #fff;
-      text-transform: uppercase; 
-      position: relative; /* for noise overlay */
-    }
-    /* Subtle repeating radial gradient noise */
-    body::before {
-      content: "";
-      pointer-events: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image: repeating-radial-gradient(
-        rgba(255, 255, 255, 0.02) 0,
-        rgba(255, 255, 255, 0.02) 1px,
-        transparent 1px,
-        transparent 100%
-      );
-      background-size: 3px 3px;
-      opacity: 0.02;
-      z-index: 0; /* behind everything */
-    }
-
-    /**********************************************
-     * 2) HAMBURGER NAV
-     **********************************************/
-    /* Navbar container (hamburger + optional text) */
-    .navbar {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 9999; /* above Redoc container */
-      display: flex;
-      align-items: center;
-    }
-    /* Hamburger icon container */
-    .hamburger {
-      width: 30px;
-      height: 24px;
-      display: inline-block;
-      position: relative;
-      cursor: pointer;
-      margin-right: 1em;
-    }
-    .hamburger span {
-      background: #fff;
-      height: 3px;
-      width: 100%;
-      display: block;
-      position: absolute;
-      left: 0;
-      transition: 0.4s;
-    }
-    .hamburger span:nth-child(1) { top: 0; }
-    .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-    .hamburger span:nth-child(3) { bottom: 0; }
-    /* Animate into an 'X' when active */
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(10px) rotate(45deg);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0; /* hide middle line */
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-10px) rotate(-45deg);
-    }
-
-    /* Slide-out menu itself */
-    .nav-links {
-      position: fixed;
-      top: 0;
-      left: -200px; /* hidden offscreen initially */
-      width: 200px;
-      height: 100%;
-      background: #333; /* darker gray for menu background */
-      padding-top: 60px; /* space above for hamburger row */
-      box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-      transition: left 0.4s ease;
-      z-index: 9998; 
-    }
-    .nav-links a {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      padding: 1em;
-      font-size: 0.9em;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
-    .nav-links a:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    /* Show the menu when .open is applied */
-    .nav-links.open {
-      left: 0;
-    }
-
-    /**********************************************
-     * 3) REDOC WRAPPER
-     **********************************************/
-    .safe-area {
-      position: relative;
-      min-height: 100vh;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right)
-               env(safe-area-inset-bottom) env(safe-area-inset-left);
-      z-index: 1; /* above the noise overlay */
-    }
-
-    /* We override the Redoc container background & text color
-       so that it matches the dark theme. We'll rely on the
-       Redoc theme config for further details. */
-    #redoc {
-      width: 90%;
-      max-width: 1200px;
-      margin: 80px auto 40px; 
-      background: #444;   /* same dark gray */
-      color: #fff;        /* white text */
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      text-transform: none; /* docs read better in normal case */
-      font-family: Helvetica, Arial, sans-serif; 
-    }
-
-    /* Because Redoc has its own styles, we also supply a theme override
-       (see below in the JS) to ensure sidebars, headings, etc. are dark. */
-  </style>
 </head>
 <body>
-  <!-- 1) The Navbar with Hamburger -->
+  <!-- Navbar with Hamburger -->
   <div class="navbar">
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <div style="font-size:1.2em;">API DOCS</div>
+    <div class="nav-title">Docs</div>
   </div>
 
-  <!-- 2) Slide-out nav menu -->
+  <!-- Slide-out Navigation Menu -->
   <div class="nav-links" id="navMenu">
     <a href="index.html">Home</a>
     <a href="docs.html">API Docs</a>
-    <!-- Add more links if desired -->
+    <!-- Add more links as needed -->
   </div>
 
-  <!-- 3) Safe-area + Redoc container -->
+  <!-- Safe-area container and Redoc wrapper -->
   <div class="safe-area">
     <div id="redoc"></div>
   </div>
 
-  <!-- 4) Static OpenAPI spec (with external references removed) -->
+  <!-- Static OpenAPI Spec -->
   <script id="openapi-spec" type="application/json">
-  {
-    "openapi": "3.1.0",
-    "info": {
-      "title": "TourManagerAPI",
-      "description": "Orchestrating Concert Data Visualization.",
-      "version": "1.2.0"
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TourManagerAPI",
+    "description": "Orchestrating Concert Data Visualization.",
+    "version": "1.2.0"
+  },
+  "paths": {
+    "/search/artists/": {
+      "get": {
+         "tags": ["Artist Search"],
+         "summary": "Search for an artist",
+         "description": "Searches for an artist by name using the local database and external sources to enrich results. The process includes:\n1. Sanitizing the input.\n2. Querying the local database.\n3. Concurrently querying external sources to enrich results.\n4. Merging and processing the results.\n5. Applying ranking, deduplication, and auto-match logic.\n\nReturns a JSON response containing either a matched artist or a list of alternatives.",
+         "operationId": "search_by_artist_search_artists__get",
+         "security": [{"APIKeyHeader": []}],
+         "parameters": [{
+            "name": "artist_name",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string", "minLength": 1, "maxLength": 100, "description": "Artist name", "title": "Artist Name"},
+            "description": "Artist name"
+         }],
+         "responses": {
+           "200": {
+              "description": "Successful Response",
+              "content": {"application/json": {"schema": {"type": "object", "title": "Response Search By Artist Search Artists Get"}}}
+           },
+           "404": {"description": "Not Found"},
+           "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}},
+           "500": {"description": "Internal Server Error"}
+         }
+      }
     },
-    "paths": {
-      "/search/artists/": {
-        "get": {
-          "tags": ["Artist Search"],
-          "summary": "Search for an artist",
-          "description": "Searches for an artist by name using the local database...",
-          "operationId": "search_by_artist_search_artists__get",
-          "security": [{"APIKeyHeader": []}],
-          "parameters": [
-            {
-              "name": "artist_name",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 100,
-                "description": "Artist name",
-                "title": "Artist Name"
-              },
-              "description": "Artist name"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "title": "Response Search By Artist Search Artists Get"
-                  }
-                }
-              }
-            },
-            "404": {"description": "Not Found"},
-            "422": {
-              "description": "Validation Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "500": {"description": "Internal Server Error"}
+    "/search/locations/": {
+      "get": {
+         "tags": ["Location Search"],
+         "summary": "Search for locations",
+         "description": "Search for locations using various criteria. Supports searches by:\n- Place names (cities, states, countries)\n- Geographic identifiers (geo_id)\n- Coordinates (lat, lon) with proximity filtering if provided.\n\nWhen no query is provided, the external source calls omit the keyword.",
+         "operationId": "search_locations_search_locations__get",
+         "security": [{"APIKeyHeader": []}],
+         "parameters": [
+           {"name": "query", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Place name for location search", "title": "Query"}},
+           {"name": "geo_id", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Geographic identifier", "title": "Geo Id"}},
+           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for proximity search", "title": "Lat"}},
+           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for proximity search", "title": "Lon"}},
+           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters", "default": 5000, "title": "Radius"}},
+           {"name": "force_refresh", "in": "query", "required": false, "schema": {"type": "boolean", "description": "Force refresh data, bypass cache", "default": false, "title": "Force Refresh"}}
+         ],
+         "responses": {
+           "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Search Locations Search Locations Get"}}}},
+           "404": {"description": "Location not found"},
+           "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}},
+           "500": {"description": "Internal Server Error"}
+         }
+      }
+    },
+    "/search/venues/": {
+      "get": {
+         "tags": ["Venue Search"],
+         "summary": "Search for venues by name or location",
+         "description": "Search for venues in your local database by name, optionally filtering by proximity if latitude/longitude are provided. Additional matches are fetched to enrich results. If lat/lon are provided, they are used for location-based searching.",
+         "operationId": "search_venues_search_venues__get",
+         "security": [{"APIKeyHeader": []}],
+         "parameters": [
+           {"name": "name", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Venue name for fuzzy search", "title": "Name"}},
+           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for proximity search", "title": "Lat"}},
+           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for proximity search", "title": "Lon"}},
+           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters", "default": 5000, "title": "Radius"}},
+           {"name": "filter_by_distance", "in": "query", "required": false, "schema": {"type": "boolean", "description": "Apply proximity filtering if true", "default": true, "title": "Filter By Distance"}},
+           {"name": "date", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Date (YYYY-MM-DD) for historical venue lookup", "title": "Date"}}
+         ],
+         "responses": {
+           "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Search Venues Search Venues Get"}}}},
+           "404": {"description": "Venue not found"},
+           "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}},
+           "500": {"description": "Internal Server Error"}
+         }
+      }
+    },
+    "/search/venues/near": {
+      "get": {
+         "tags": ["Venue Search"],
+         "summary": "Search for venues near a location",
+         "description": "A specialized endpoint for searching venues near a location, focusing on coordinate-based searching. If a venue name is specified, results are filtered accordingly.",
+         "operationId": "venues_near_me_search_venues_near_get",
+         "security": [{"APIKeyHeader": []}],
+         "parameters": [
+           {"name": "lat", "in": "query", "required": true, "schema": {"type": "number", "description": "Latitude", "title": "Lat"}},
+           {"name": "lon", "in": "query", "required": true, "schema": {"type": "number", "description": "Longitude", "title": "Lon"}},
+           {"name": "radius", "in": "query", "required": false, "schema": {"type": "number", "description": "Radius in meters", "default": 5000, "title": "Radius"}},
+           {"name": "name", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Optional venue name to filter results", "title": "Name"}}
+         ],
+         "responses": {
+           "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Venues Near Me Search Venues Near Get"}}}},
+           "404": {"description": "Venue not found"},
+           "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}},
+           "500": {"description": "Internal Server Error"}
+         }
+      }
+    },
+    "/search/universal/": {
+      "get": {
+         "tags": ["Universal Search"],
+         "summary": "Universal search for artists, venues, and locations",
+         "description": "Perform a universal search across artists, venues, and locations.\n\n- For artists, it calls the artist search.\n- For venues, it calls the venue search.\n- For locations, it calls the location search using query and coordinates.\n\nReturns a JSON response with aggregated results under keys \"artists\", \"venues\", and \"locations\".",
+         "operationId": "universal_search_search_universal__get",
+         "security": [{"APIKeyHeader": []}],
+         "parameters": [
+           {"name": "query", "in": "query", "required": true, "schema": {"type": "string", "description": "Search query (e.g., venue or artist name)", "title": "Query"}},
+           {"name": "type", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Entity type to search: 'artist', 'venue', 'location', or 'all'", "default": "all", "title": "Type"}},
+           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for venue or location search", "title": "Lat"}},
+           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for venue or location search", "title": "Lon"}},
+           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters (venues/locations only)", "default": 5000, "title": "Radius"}},
+           {"name": "date", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Date (YYYY-MM-DD) for historical venue lookup (venues only)", "title": "Date"}}
+         ],
+         "responses": {
+           "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Universal Search Search Universal Get"}}}},
+           "404": {"description": "No results found"},
+           "422": {"description": "Validation Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}}},
+           "500": {"description": "Internal Server Error"}
+         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "type": "object",
+        "title": "HTTPValidationError",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "title": "Detail",
+            "items": {"$ref": "#/components/schemas/ValidationError"}
           }
         }
       },
-      "/search/locations/": {
-        "get": {
-          "tags": ["Location Search"],
-          "summary": "Search for locations",
-          "description": "Search for locations using various criteria...",
-          "operationId": "search_locations_search_locations__get",
-          "security": [{"APIKeyHeader": []}],
-          "parameters": [
-            {
-              "name": "query",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Place name for location search",
-                "title": "Query"
-              }
-            },
-            {
-              "name": "geo_id",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Geographic identifier",
-                "title": "Geo Id"
-              }
-            },
-            {
-              "name": "lat",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Latitude for proximity search",
-                "title": "Lat"
-              }
-            },
-            {
-              "name": "lon",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Longitude for proximity search",
-                "title": "Lon"
-              }
-            },
-            {
-              "name": "radius",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Search radius in meters",
-                "default": 5000,
-                "title": "Radius"
-              }
-            },
-            {
-              "name": "force_refresh",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "boolean",
-                "description": "Force refresh data, bypass cache",
-                "default": false,
-                "title": "Force Refresh"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "title": "Response Search Locations Search Locations Get"
-                  }
-                }
-              }
-            },
-            "404": {"description": "Location not found"},
-            "422": {
-              "description": "Validation Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "500": {"description": "Internal Server Error"}
-          }
-        }
-      },
-      "/search/venues/": {
-        "get": {
-          "tags": ["Venue Search"],
-          "summary": "Search for venues by name or location",
-          "description": "Search for venues in your local database by name...",
-          "operationId": "search_venues_search_venues__get",
-          "security": [{"APIKeyHeader": []}],
-          "parameters": [
-            {
-              "name": "name",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Venue name for fuzzy search",
-                "title": "Name"
-              }
-            },
-            {
-              "name": "lat",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Latitude for proximity search",
-                "title": "Lat"
-              }
-            },
-            {
-              "name": "lon",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Longitude for proximity search",
-                "title": "Lon"
-              }
-            },
-            {
-              "name": "radius",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Search radius in meters",
-                "default": 5000,
-                "title": "Radius"
-              }
-            },
-            {
-              "name": "filter_by_distance",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "boolean",
-                "description": "Apply proximity filtering if true",
-                "default": true,
-                "title": "Filter By Distance"
-              }
-            },
-            {
-              "name": "date",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Date (YYYY-MM-DD) for historical venue lookup",
-                "title": "Date"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "title": "Response Search Venues Search Venues Get"
-                  }
-                }
-              }
-            },
-            "404": {"description": "Venue not found"},
-            "422": {
-              "description": "Validation Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "500": {"description": "Internal Server Error"}
-          }
-        }
-      },
-      "/search/venues/near": {
-        "get": {
-          "tags": ["Venue Search"],
-          "summary": "Search for venues near a location",
-          "description": "A specialized endpoint for searching venues near a location...",
-          "operationId": "venues_near_me_search_venues_near_get",
-          "security": [{"APIKeyHeader": []}],
-          "parameters": [
-            {
-              "name": "lat",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "type": "number",
-                "description": "Latitude",
-                "title": "Lat"
-              }
-            },
-            {
-              "name": "lon",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "type": "number",
-                "description": "Longitude",
-                "title": "Lon"
-              }
-            },
-            {
-              "name": "radius",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "number",
-                "description": "Radius in meters",
-                "default": 5000,
-                "title": "Radius"
-              }
-            },
-            {
-              "name": "name",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Optional venue name to filter results",
-                "title": "Name"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "title": "Response Venues Near Me Search Venues Near Get"
-                  }
-                }
-              }
-            },
-            "404": {"description": "Venue not found"},
-            "422": {
-              "description": "Validation Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "500": {"description": "Internal Server Error"}
-          }
-        }
-      },
-      "/search/universal/": {
-        "get": {
-          "tags": ["Universal Search"],
-          "summary": "Universal search for artists, venues, and locations",
-          "description": "Perform a universal search across artists, venues, and locations...",
-          "operationId": "universal_search_search_universal__get",
-          "security": [{"APIKeyHeader": []}],
-          "parameters": [
-            {
-              "name": "query",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "description": "Search query (e.g., venue or artist name)",
-                "title": "Query"
-              }
-            },
-            {
-              "name": "type",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Entity type to search: 'artist', 'venue', 'location', or 'all'",
-                "default": "all",
-                "title": "Type"
-              }
-            },
-            {
-              "name": "lat",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Latitude for venue or location search",
-                "title": "Lat"
-              }
-            },
-            {
-              "name": "lon",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Longitude for venue or location search",
-                "title": "Lon"
-              }
-            },
-            {
-              "name": "radius",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "number"}, {"type": "null"}],
-                "description": "Search radius in meters (venues/locations only)",
-                "default": 5000,
-                "title": "Radius"
-              }
-            },
-            {
-              "name": "date",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "anyOf": [{"type": "string"}, {"type": "null"}],
-                "description": "Date (YYYY-MM-DD) for historical venue lookup (venues only)",
-                "title": "Date"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful Response",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "title": "Response Universal Search Search Universal Get"
-                  }
-                }
-              }
-            },
-            "404": {"description": "No results found"},
-            "422": {
-              "description": "Validation Error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "500": {"description": "Internal Server Error"}
-          }
+      "ValidationError": {
+        "type": "object",
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "properties": {
+          "loc": {
+            "type": "array",
+            "title": "Location",
+            "items": {"anyOf": [{"type": "string"}, {"type": "integer"}]}
+          },
+          "msg": {"type": "string", "title": "Message"},
+          "type": {"type": "string", "title": "Error Type"}
         }
       }
     },
-    "components": {
-      "schemas": {
-        "HTTPValidationError": {
-          "type": "object",
-          "title": "HTTPValidationError",
-          "properties": {
-            "detail": {
-              "type": "array",
-              "title": "Detail",
-              "items": {
-                "$ref": "#/components/schemas/ValidationError"
-              }
-            }
-          }
-        },
-        "ValidationError": {
-          "type": "object",
-          "title": "ValidationError",
-          "required": ["loc", "msg", "type"],
-          "properties": {
-            "loc": {
-              "type": "array",
-              "title": "Location",
-              "items": {
-                "anyOf": [
-                  {"type": "string"},
-                  {"type": "integer"}
-                ]
-              }
-            },
-            "msg": {"type": "string", "title": "Message"},
-            "type": {"type": "string", "title": "Error Type"}
-          }
-        }
-      },
-      "securitySchemes": {
-        "APIKeyHeader": {
-          "type": "apiKey",
-          "in": "header",
-          "name": "x-api-key"
-        }
+    "securitySchemes": {
+      "APIKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
       }
-    },
-    "security": [{"APIKeyHeader": []}]
-  }
+    }
+  },
+  "security": [{"APIKeyHeader": []}]
+}
   </script>
 
-  <!-- 5) Initialize Redoc + hamburger logic -->
   <script>
-    // Hamburger toggle logic
-    const hamburger = document.getElementById('hamburger');
-    const navMenu   = document.getElementById('navMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active'); // animate lines
-      navMenu.classList.toggle('open');     // slide menu in/out
-    });
-
-    // Init Redoc with a dark theme override
+    // Initialize Redoc once DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
       const spec = JSON.parse(document.getElementById('openapi-spec').innerText);
+      Redoc.init(spec, {}, document.getElementById('redoc'));
+    });
 
-      Redoc.init(spec, {
-        theme: {
-          // Adjust these colors to suit your preference
-          colors: {
-            primary: { main: '#cccccc' },    // Highlight color for buttons/links
-            text: { primary: '#ffffff', secondary: '#dddddd' },
-            http: {
-              get:    '#4caf50',
-              post:   '#2196f3',
-              put:    '#ff9800',
-              delete: '#f44336'
-            },
-            backgroundColor: '#444444',      // Overall background
-            menu: { backgroundColor: '#333333' },
-          },
-          typography: {
-            fontSize: '14px',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-          },
-          sidebar: {
-            backgroundColor: '#333333',
-            textColor: '#ffffff',
-          }
-        }
-      }, document.getElementById('redoc'));
+    // Hamburger toggle logic
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('open');
     });
   </script>
 </body>
