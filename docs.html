@@ -1,48 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf8" />
   <title>TourManagerAPI - Documentation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <!-- Link to your shared styles.css -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Redoc script -->
+  <!-- needed for adaptive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+  <style>
+    /* Match main landing page theming */
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background: #444;
+      color: #fff;
+      text-transform: uppercase;
+      position: relative;
+    }
+    header {
+      background: #444;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+    nav {
+      margin-top: 10px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.1em;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 20px;
+    }
+    /* Redoc container styling */
+    #redoc {
+      background: #fff;
+      color: #333;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+  </style>
   <script src="https://cdn.redocly.com/redoc/v2.4.0/bundles/redoc.standalone.js"></script>
 </head>
 <body>
-  <!-- Fixed navbar (same .navbar & .hamburger classes as in styles.css) -->
-  <div class="navbar">
-    <!-- Hamburger Icon -->
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <!-- Title on the left side of navbar -->
-    <div class="nav-title">API Docs</div>
-  </div>
-
-  <!-- Slide-out nav menu (same .nav-links class as in styles.css) -->
-  <div class="nav-links" id="navMenu">
-    <a href="index.html">Home</a>
-    <a href="docs.html">API Docs</a>
-    <!-- Add more links as needed -->
-  </div>
-
-  <!-- Safe-area with top padding so Redoc isn't cut off by the fixed navbar -->
-  <div class="safe-area" style="padding-top: 70px;">
+  <header>
+    <h1>TourManagerAPI</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="docs.html">API Docs</a>
+    </nav>
+  </header>
+  <main>
     <div id="redoc"></div>
-  </div>
-
-  <!-- Static OpenAPI Spec -->
+  </main>
+  <!-- Static OpenAPI spec (with external API references removed) -->
   <script id="openapi-spec" type="application/json">
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "TourManager API",
-    "description": "",
+    "title": "TourManagerAPI",
+    "description": "Orchestrating Concert Data Visualization.",
     "version": "1.2.0"
   },
   "paths": {
@@ -79,12 +106,12 @@
          "operationId": "search_locations_search_locations__get",
          "security": [{"APIKeyHeader": []}],
          "parameters": [
-           {"name": "query", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Place name for location search", "title": "Query"}},
-           {"name": "geo_id", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Geographic identifier", "title": "Geo Id"}},
-           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for proximity search", "title": "Lat"}},
-           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for proximity search", "title": "Lon"}},
-           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters", "default": 5000, "title": "Radius"}},
-           {"name": "force_refresh", "in": "query", "required": false, "schema": {"type": "boolean", "description": "Force refresh data, bypass cache", "default": false, "title": "Force Refresh"}}
+           {"name": "query", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Place name for location search", "title": "Query"}, "description": "Place name for location search"},
+           {"name": "geo_id", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Geographic identifier", "title": "Geo Id"}, "description": "Geographic identifier (if available)"},
+           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for proximity search", "title": "Lat"}, "description": "Latitude for proximity search"},
+           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for proximity search", "title": "Lon"}, "description": "Longitude for proximity search"},
+           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters", "default": 5000, "title": "Radius"}, "description": "Search radius in meters"},
+           {"name": "force_refresh", "in": "query", "required": false, "schema": {"type": "boolean", "description": "Force refresh data, bypass cache", "default": false, "title": "Force Refresh"}, "description": "Force refresh data, bypass cache"}
          ],
          "responses": {
            "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Search Locations Search Locations Get"}}}},
@@ -102,12 +129,12 @@
          "operationId": "search_venues_search_venues__get",
          "security": [{"APIKeyHeader": []}],
          "parameters": [
-           {"name": "name", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Venue name for fuzzy search", "title": "Name"}},
-           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for proximity search", "title": "Lat"}},
-           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for proximity search", "title": "Lon"}},
-           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters", "default": 5000, "title": "Radius"}},
-           {"name": "filter_by_distance", "in": "query", "required": false, "schema": {"type": "boolean", "description": "Apply proximity filtering if true", "default": true, "title": "Filter By Distance"}},
-           {"name": "date", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Date (YYYY-MM-DD) for historical venue lookup", "title": "Date"}}
+           {"name": "name", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Venue name for fuzzy search", "title": "Name"}, "description": "Venue name for fuzzy search"},
+           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for proximity search", "title": "Lat"}, "description": "Latitude for proximity search"},
+           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for proximity search", "title": "Lon"}, "description": "Longitude for proximity search"},
+           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters", "default": 5000, "title": "Radius"}, "description": "Search radius in meters"},
+           {"name": "filter_by_distance", "in": "query", "required": false, "schema": {"type": "boolean", "description": "Apply proximity filtering if true", "default": true, "title": "Filter By Distance"}, "description": "Apply proximity filtering if true"},
+           {"name": "date", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Date (YYYY-MM-DD) for historical venue lookup", "title": "Date"}, "description": "Date (YYYY-MM-DD) for historical venue lookup"}
          ],
          "responses": {
            "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Search Venues Search Venues Get"}}}},
@@ -125,10 +152,10 @@
          "operationId": "venues_near_me_search_venues_near_get",
          "security": [{"APIKeyHeader": []}],
          "parameters": [
-           {"name": "lat", "in": "query", "required": true, "schema": {"type": "number", "description": "Latitude", "title": "Lat"}},
-           {"name": "lon", "in": "query", "required": true, "schema": {"type": "number", "description": "Longitude", "title": "Lon"}},
-           {"name": "radius", "in": "query", "required": false, "schema": {"type": "number", "description": "Radius in meters", "default": 5000, "title": "Radius"}},
-           {"name": "name", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Optional venue name to filter results", "title": "Name"}}
+           {"name": "lat", "in": "query", "required": true, "schema": {"type": "number", "description": "Latitude", "title": "Lat"}, "description": "Latitude"},
+           {"name": "lon", "in": "query", "required": true, "schema": {"type": "number", "description": "Longitude", "title": "Lon"}, "description": "Longitude"},
+           {"name": "radius", "in": "query", "required": false, "schema": {"type": "number", "description": "Radius in meters", "default": 5000, "title": "Radius"}, "description": "Radius in meters"},
+           {"name": "name", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Optional venue name to filter results", "title": "Name"}, "description": "Optional venue name to filter results"}
          ],
          "responses": {
            "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Venues Near Me Search Venues Near Get"}}}},
@@ -146,12 +173,12 @@
          "operationId": "universal_search_search_universal__get",
          "security": [{"APIKeyHeader": []}],
          "parameters": [
-           {"name": "query", "in": "query", "required": true, "schema": {"type": "string", "description": "Search query (e.g., venue or artist name)", "title": "Query"}},
-           {"name": "type", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Entity type to search: 'artist', 'venue', 'location', or 'all'", "default": "all", "title": "Type"}},
-           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for venue or location search", "title": "Lat"}},
-           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for venue or location search", "title": "Lon"}},
-           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters (venues/locations only)", "default": 5000, "title": "Radius"}},
-           {"name": "date", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Date (YYYY-MM-DD) for historical venue lookup (venues only)", "title": "Date"}}
+           {"name": "query", "in": "query", "required": true, "schema": {"type": "string", "description": "Search query (e.g., venue or artist name)", "title": "Query"}, "description": "Search query (e.g., venue or artist name)"},
+           {"name": "type", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Entity type to search: 'artist', 'venue', 'location', or 'all'", "default": "all", "title": "Type"}, "description": "Entity type to search: 'artist', 'venue', 'location', or 'all'"},
+           {"name": "lat", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Latitude for venue or location search", "title": "Lat"}, "description": "Latitude for venue or location search"},
+           {"name": "lon", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Longitude for venue or location search", "title": "Lon"}, "description": "Longitude for venue or location search"},
+           {"name": "radius", "in": "query", "required": false, "schema": {"anyOf": [{"type": "number"}, {"type": "null"}], "description": "Search radius in meters (venues/locations only)", "default": 5000, "title": "Radius"}, "description": "Search radius in meters (venues/locations only)"},
+           {"name": "date", "in": "query", "required": false, "schema": {"anyOf": [{"type": "string"}, {"type": "null"}], "description": "Date (YYYY-MM-DD) for historical venue lookup (venues only)", "title": "Date"}, "description": "Date (YYYY-MM-DD) for historical venue lookup (venues only)"}
          ],
          "responses": {
            "200": {"description": "Successful Response", "content": {"application/json": {"schema": {"type": "object", "title": "Response Universal Search Search Universal Get"}}}},
@@ -171,7 +198,9 @@
           "detail": {
             "type": "array",
             "title": "Detail",
-            "items": {"$ref": "#/components/schemas/ValidationError"}
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
           }
         }
       },
@@ -183,7 +212,12 @@
           "loc": {
             "type": "array",
             "title": "Location",
-            "items": {"anyOf": [{"type": "string"}, {"type": "integer"}]}
+            "items": {
+              "anyOf": [
+                {"type": "string"},
+                {"type": "integer"}
+              ]
+            }
           },
           "msg": {"type": "string", "title": "Message"},
           "type": {"type": "string", "title": "Error Type"}
@@ -201,59 +235,10 @@
   "security": [{"APIKeyHeader": []}]
 }
   </script>
-
- <script>
-    // 1) Hamburger toggle logic
-    const hamburger = document.getElementById('hamburger');
-    const navMenu   = document.getElementById('navMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active'); // animate the lines
-      navMenu.classList.toggle('open');     // slide menu in/out
-    });
-
-    // 2) Initialize Redoc with a dark grey theme
-    document.addEventListener('DOMContentLoaded', () => {
-      const spec = JSON.parse(document.getElementById('openapi-spec').innerText);
-
-      Redoc.init(spec, {
-        scrollYOffset: 70, // helps anchor offset so sections aren't hidden
-        theme: {
-          // The main text color for docs
-          colors: {
-            primary: {
-              main: '#ffffff'
-            },
-            text: {
-              primary: '#ffffff',
-              secondary: '#cccccc'
-            },
-            http: {
-              get: '#1d8127',
-              post: '#186FAF',
-              put: '#95507c',
-              options: '#947014',
-              patch: '#bf581d',
-              delete: '#cc3333'
-            },
-            menu: {
-              backgroundColor: '#333333', /* left menu bg */
-              textColor: '#ffffff'
-            },
-            rightPanel: {
-              backgroundColor: '#333333', /* right column bg */
-              textColor: '#ffffff'
-            },
-            // Adjust border & background if needed
-            bg1: '#444444', 
-            bg2: '#555555',
-            border: {
-              dark: '#666666',
-              light: '#888888'
-            }
-          }
-        }
-      }, document.getElementById('redoc'));
-    });
+  <script>
+    // Initialize Redoc using the static spec
+    var spec = JSON.parse(document.getElementById('openapi-spec').innerText);
+    Redoc.init(spec, {}, document.getElementById('redoc'));
   </script>
 </body>
 </html>
