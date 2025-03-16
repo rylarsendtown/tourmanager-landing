@@ -5,35 +5,34 @@
   <title>TourManagerAPI - Documentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+  <!-- Link to your shared styles.css -->
+  <link rel="stylesheet" href="styles.css" />
 
-  <!-- External Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Redoc Script -->
+  <!-- Redoc script -->
   <script src="https://cdn.redocly.com/redoc/v2.4.0/bundles/redoc.standalone.js"></script>
 </head>
 <body>
-  <!-- Navbar with Hamburger -->
+  <!-- Fixed navbar (same .navbar & .hamburger classes as in styles.css) -->
   <div class="navbar">
+    <!-- Hamburger Icon -->
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <div class="nav-title">Docs</div>
+    <!-- Title on the left side of navbar -->
+    <div class="nav-title">DOCS</div>
   </div>
 
-  <!-- Slide-out Navigation Menu -->
+  <!-- Slide-out nav menu (same .nav-links class as in styles.css) -->
   <div class="nav-links" id="navMenu">
     <a href="index.html">Home</a>
     <a href="docs.html">API Docs</a>
     <!-- Add more links as needed -->
   </div>
 
-  <!-- Safe-area container and Redoc wrapper -->
-  <div class="safe-area">
+  <!-- Safe-area with top padding so Redoc isn't cut off by the fixed navbar -->
+  <div class="safe-area" style="padding-top: 70px;">
     <div id="redoc"></div>
   </div>
 
@@ -203,19 +202,57 @@
 }
   </script>
 
-  <script>
-    // Initialize Redoc once DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
-      const spec = JSON.parse(document.getElementById('openapi-spec').innerText);
-      Redoc.init(spec, {}, document.getElementById('redoc'));
+ <script>
+    // 1) Hamburger toggle logic
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active'); // animate the lines
+      navMenu.classList.toggle('open');     // slide menu in/out
     });
 
-    // Hamburger toggle logic
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navMenu.classList.toggle('open');
+    // 2) Initialize Redoc with a dark grey theme
+    document.addEventListener('DOMContentLoaded', () => {
+      const spec = JSON.parse(document.getElementById('openapi-spec').innerText);
+
+      Redoc.init(spec, {
+        scrollYOffset: 70, // helps anchor offset so sections aren't hidden
+        theme: {
+          // The main text color for docs
+          colors: {
+            primary: {
+              main: '#ffffff'
+            },
+            text: {
+              primary: '#ffffff',
+              secondary: '#cccccc'
+            },
+            http: {
+              get: '#1d8127',
+              post: '#186FAF',
+              put: '#95507c',
+              options: '#947014',
+              patch: '#bf581d',
+              delete: '#cc3333'
+            },
+            menu: {
+              backgroundColor: '#333333', /* left menu bg */
+              textColor: '#ffffff'
+            },
+            rightPanel: {
+              backgroundColor: '#333333', /* right column bg */
+              textColor: '#ffffff'
+            },
+            // Adjust border & background if needed
+            bg1: '#444444', 
+            bg2: '#555555',
+            border: {
+              dark: '#666666',
+              light: '#888888'
+            }
+          }
+        }
+      }, document.getElementById('redoc'));
     });
   </script>
 </body>
