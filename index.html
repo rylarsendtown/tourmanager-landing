@@ -8,22 +8,22 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Hamburger nav container -->
-  <div class="hamburger-nav">
-    <button class="hamburger-btn" onclick="toggleMenu()">
+  <!-- Navbar with Hamburger Menu -->
+  <div class="navbar">
+    <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
       <span></span>
-    </button>
-    <div class="nav-menu" id="navMenu">
+    </div>
+    <div class="nav-links" id="navMenu">
       <a href="index.html">Home</a>
       <a href="docs.html">API Docs</a>
-      <!-- Add more links if desired -->
+      <!-- Additional links if desired -->
     </div>
   </div>
 
   <div class="safe-area">
-    <!-- Logo row: fades in first, then tagline appears -->
+    <!-- Logo row: fades in, then tagline appears -->
     <div class="logo-row">
       <div class="title-container">
         <h1 class="title-top">TourManager</h1>
@@ -47,18 +47,20 @@
   </div>
 
   <script>
-    // After page load, show the tagline after the logo fade-in completes (~2s delay)
+    // Show the tagline after a 2-second delay (after logo fade-in)
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
       }, 2000);
     });
 
-    // Toggle the hamburger nav menu
-    function toggleMenu() {
-      const menu = document.getElementById('navMenu');
-      menu.classList.toggle('open');
-    }
+    // Toggle the hamburger nav menu on click
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active'); // animate the lines (if your CSS defines .active)
+      navMenu.classList.toggle('open');     // slide menu in/out
+    });
   </script>
 </body>
 </html>
