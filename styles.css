@@ -14,7 +14,7 @@ body {
   background: #444; /* primary color theme */
   color: #fff;
   text-transform: uppercase;
-  position: relative; /* so we can position the noise overlay */
+  position: relative; /* for noise overlay */
 }
 
 body::before {
@@ -33,7 +33,7 @@ body::before {
   );
   background-size: 3px 3px;
   opacity: 0.02;
-  z-index: 0; /* behind all content */
+  z-index: 0;
 }
 
 /* Safe-area container for iOS dynamic viewport */
@@ -42,38 +42,39 @@ body::before {
   height: 100vh;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
-  z-index: 1; /* content above noise overlay */
+  z-index: 1;
 }
 
-/* --- HAMBURGER NAVBAR STYLING --- */
-/* Top fixed navbar */
+/* --- NAVBAR STYLING --- */
+/* Fixed navbar using golden ratio dimensions */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 13vw;  /* 8vw + 5vw based on our design ratios */
   background: #444;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
+  padding: 0 2vw;
   z-index: 1000;
-  padding: 0 20px;
 }
 
-/* Hamburger icon within navbar */
+/* Hamburger icon inside navbar */
 .navbar .hamburger {
-  width: 30px;
-  height: 24px;
+  width: 4vw;
+  height: 4vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
+  margin-right: 2vw;
 }
 
 .navbar .hamburger span {
   display: block;
-  height: 3px;
+  height: 0.5vw;
   width: 100%;
   background: #fff;
   transition: 0.4s;
@@ -81,7 +82,7 @@ body::before {
 
 /* Animate hamburger into an "X" when active */
 .navbar .hamburger.active span:nth-child(1) {
-  transform: translateY(10px) rotate(45deg);
+  transform: translateY(1vw) rotate(45deg);
 }
 
 .navbar .hamburger.active span:nth-child(2) {
@@ -89,26 +90,42 @@ body::before {
 }
 
 .navbar .hamburger.active span:nth-child(3) {
-  transform: translateY(-10px) rotate(-45deg);
+  transform: translateY(-1vw) rotate(-45deg);
 }
 
-/* Navbar title text */
-.navbar .nav-title {
-  margin-left: 15px;
-  font-size: 1.2rem;
-  color: #fff;
+/* Title container in navbar using golden ratio scaling */
+.title-container-navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-/* Slide-out navigation menu */
+.title-container-navbar .title-top {
+  font-size: 4vw; /* scaled down from 8vw for navbar */
+  line-height: 1;
+  letter-spacing: -0.5vw;
+  font-weight: bold;
+  margin: 0;
+}
+
+.title-container-navbar .title-bottom {
+  font-size: 2.5vw; /* scaled down from 5vw for navbar */
+  line-height: 1;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* --- Slide-out Navigation Menu --- */
 .nav-links {
   position: fixed;
   top: 0;
-  left: -100%; /* hidden off-screen */
+  left: -100%; /* Hidden off-screen */
   width: 60%;
   max-width: 280px;
   height: 100vh;
   background: #222; /* darker grey to match theme */
-  padding-top: 60px; /* account for navbar height */
+  padding-top: 13vw; /* leave space for navbar */
   transition: left 0.3s ease;
   z-index: 999;
 }
@@ -119,8 +136,7 @@ body::before {
 
 .nav-links a {
   display: block;
-  margin: 1.5em 0;
-  padding: 0 20px;
+  padding: 1em 2vw;
   font-size: 1rem;
   color: #fff;
   text-decoration: none;
@@ -131,146 +147,37 @@ body::before {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* --- MAIN PAGE SPECIFIC STYLES --- */
-
-/* Logo row: Title container + Equalizer side by side */
-.logo-row {
-  position: absolute;
-  top: 61.8%;
-  right: 6.18%;
-  display: flex;
-  align-items: flex-end; /* align text & bars along the same baseline */
-  gap: 2vw;
-  opacity: 0;
-  animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
-}
-
-@keyframes fadeLogoIn {
-  to { opacity: 1; }
-}
-
-/*
-  Title container (logo):
-  - “TourManager” at 8vw
-  - “API” at 5vw
-  Total height ~13vw.
-*/
-.title-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  height: 13vw;
-}
-
-/* Top line (TourManager) */
-.title-top {
-  font-size: 8vw;
-  line-height: 1;
-  letter-spacing: -1px;
-  font-weight: bold;
-  margin: 0;
-}
-
-/* Bottom line (API) */
-.title-bottom {
-  font-size: 5vw;
-  line-height: 1;
-  font-weight: bold;
-  margin: 0;
-}
-
-/*
-  Equalizer container:
-  - Matches the height of the title container (13vw)
-*/
-.equalizer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 13vw;
-}
-
-/* Row for the 6 equalizer bars */
-.equalizer-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 1vw;
-  overflow: visible;
-  height: 100%;
-}
-
-/* Equalizer bar styling */
-.eq-bar {
-  position: relative;
-  width: 1vw;
-  height: 100%;
-  background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
-  background-size: 200% 100%;
-  border-radius: 0.5vw;
-  transform: scaleY(0.4);
-  transform-origin: center;
-}
-
-/* Bar animations for each of the 6 bars */
-.eq-bar:nth-child(1) {
-  animation: barAnim1 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
-}
-.eq-bar:nth-child(2) {
-  animation: barAnim2 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
-}
-.eq-bar:nth-child(3) {
-  animation: barAnim3 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
-}
-.eq-bar:nth-child(4) {
-  animation: barAnim4 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
-}
-.eq-bar:nth-child(5) {
-  animation: barAnim5 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
-}
-.eq-bar:nth-child(6) {
-  animation: barAnim6 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
-}
-
-/* Tagline styling */
+/* --- MAIN CONTENT --- */
+/* Tagline styling with improved contrast (white on grey) */
 .tagline {
   position: absolute;
-  top: 38.2%;
-  right: 6.18%;
-  width: 80%;
-  font-size: 3.82vw;
+  top: 50%;
+  right: 2vw;
+  width: 90%;
+  font-size: 3vw;
   font-weight: normal;
   line-height: 1.2;
   text-transform: lowercase;
   letter-spacing: 0.2em;
   text-align: right;
-  color: transparent;
-  background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
-  background-size: 200% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #fff;
   opacity: 0;
   visibility: hidden;
   white-space: nowrap;
+  transition: opacity 1.5s ease-in;
 }
 
 .tagline.visible {
   visibility: visible;
-  animation: fadeInTagline 1.5s ease-in forwards, shimmerFlowTagline 6.5s linear -1.5s infinite;
+  opacity: 1;
 }
 
-@keyframes fadeInTagline {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
+/* --- LOGO EQUALIZER ANIMATIONS (if still used elsewhere) --- */
 
-@keyframes shimmerFlowTagline {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+/* (The equalizer animations from your previous design are retained here.
+   If you no longer need them on this page, they may be removed.) */
 
-/* Bar scale animations */
+/* Bar scale animations and shimmer effects for equalizer bars */
 @keyframes barAnim1 {
   0%, 100% { transform: scaleY(0.4); }
   15% { transform: scaleY(1.0); }
@@ -319,7 +226,6 @@ body::before {
   90% { transform: scaleY(1.0); }
 }
 
-/* Shimmer flow for bar backgrounds */
 @keyframes shimmerFlow {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
@@ -327,19 +233,10 @@ body::before {
 
 /* Media Query for large screens */
 @media (min-width: 1600px) {
-  .title-top {
-    font-size: 12rem;
+  .title-container-navbar .title-top {
+    font-size: 5rem;
   }
-  .title-bottom {
-    font-size: 7.5rem;
-  }
-  .title-container {
-    height: calc(12rem + 7.5rem);
-  }
-  .equalizer {
-    height: 19.5rem;
-  }
-  .eq-bar {
-    width: 1.5rem;
+  .title-container-navbar .title-bottom {
+    font-size: 3rem;
   }
 }
