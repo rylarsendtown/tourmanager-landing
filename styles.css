@@ -17,12 +17,11 @@ body {
   position: relative;
 }
 
-/* Subtle repeating radial noise overlay */
 body::before {
   content: "";
   pointer-events: none;
   position: fixed;
-  top: 0; 
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -38,9 +37,9 @@ body::before {
 }
 
 /* ------------------------------
-   2) Header and Navbar
+   2) Header and Navigation
 ------------------------------ */
-/* The header extends edge-to-edge at the top */
+/* Fixed header extends full width */
 .site-header {
   position: fixed;
   top: 0;
@@ -48,22 +47,20 @@ body::before {
   width: 100%;
   background: #444;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1vw 2vw;
+  padding: 0.5vw 2vw;
   z-index: 1000;
 }
 
-/* Container for header content (stacked vertically) */
+/* Container for header content arranged vertically */
 .header-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-/* Title container using golden ratio proportions:
-   "TOURMANAGER" at 8vw (with looser letterspacing) and "API" at 5vw.
-   Total height ≈ 13vw. */
+/* Title container (golden ratio proportions) */
 .title-container-navbar {
-  height: 13vw;
+  height: 8vw; /* Adjusted for a smaller, elegant scale */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,15 +68,15 @@ body::before {
 }
 
 .title-container-navbar .title-top {
-  font-size: 8vw;
+  font-size: 5vw; /* Reduced size */
   line-height: 1;
-  letter-spacing: 0.5vw; /* looser letterspacing for modern feel */
+  letter-spacing: 0.5vw; /* Looser letter spacing */
   font-weight: bold;
   margin: 0;
 }
 
 .title-container-navbar .title-bottom {
-  font-size: 5vw;
+  font-size: 3vw; /* Reduced size */
   line-height: 1;
   font-weight: bold;
   margin: 0;
@@ -87,7 +84,7 @@ body::before {
 
 /* Equalizer positioned immediately below the title container */
 .equalizer-navbar {
-  height: 5vw;
+  height: 3vw;
   display: flex;
   align-items: center;
   margin-top: 0.5vw;
@@ -109,11 +106,14 @@ body::before {
   animation: barAnim 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
 }
 
-/* Hamburger menu container, placed below the equalizer */
+/* Hamburger container (below equalizer) */
 .hamburger-container {
   margin-top: 0.5vw;
+  display: flex;
+  align-items: center;
 }
 
+/* Hamburger button: now simple (no line morphing) */
 .hamburger {
   width: 3vw;
   height: 3vw;
@@ -128,28 +128,26 @@ body::before {
   height: 0.3vw;
   width: 100%;
   background: #fff;
-  transition: 0.4s;
+  transition: opacity 0.4s ease;
 }
 
-/* Transform hamburger into an "X" when active */
-.hamburger.active span:nth-child(1) {
-  transform: translateY(0.8vw) rotate(45deg);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: translateY(-0.8vw) rotate(-45deg);
+/* Close button (for when nav is open) */
+.close-btn {
+  font-size: 3vw;
+  color: #fff;
+  cursor: pointer;
+  display: none;
+  user-select: none;
 }
 
-/* Slide-out navigation menu: appears below the header */
+/* Slide-out navigation menu */
 .nav-menu {
   position: fixed;
-  top: calc(13vw + 5vw + 3vw + 2vw); /* header total height (approx. 21vw) */
+  top: 13vw; /* Header height (approx.) */
   left: -100%;
   width: 60%;
   max-width: 280px;
-  height: calc(100vh - (13vw+5vw+3vw+2vw));
+  height: calc(100vh - 13vw);
   background: #222;
   padding-top: 1em;
   transition: left 0.3s ease;
@@ -176,17 +174,15 @@ body::before {
 /* ------------------------------
    3) Main Content and Tagline
 ------------------------------ */
-/* Main content area pushed down by header height */
 .safe-area {
+  margin-top: 13vw; /* Push content below header */
   position: relative;
-  margin-top: calc(13vw+5vw+3vw+2vw);
-  height: calc(100vh - (13vw+5vw+3vw+2vw));
+  min-height: calc(100vh - 13vw);
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
   z-index: 1;
 }
 
-/* Main content is centered */
 .main-content {
   display: flex;
   justify-content: center;
@@ -195,7 +191,7 @@ body::before {
   text-align: center;
 }
 
-/* Tagline: centered text, fades in */
+/* Tagline centered in main content */
 .tagline {
   font-size: 3vw;
   color: #fff;
@@ -227,10 +223,10 @@ body::before {
 ------------------------------ */
 @media (min-width: 1600px) {
   .title-container-navbar .title-top {
-    font-size: 12rem;
+    font-size: 8rem;
   }
   .title-container-navbar .title-bottom {
-    font-size: 7.5rem;
+    font-size: 4.8rem;
   }
   .equalizer-navbar .eq-bar {
     width: 0.7vw;
