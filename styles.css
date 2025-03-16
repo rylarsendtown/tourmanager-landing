@@ -11,7 +11,7 @@
 
 body {
   font-family: Helvetica, Arial, sans-serif;
-  background: #444; /* primary dark grey theme */
+  background: #444;
   color: #fff;
   text-transform: uppercase;
   position: relative;
@@ -39,55 +39,79 @@ body::before {
 /* ------------------------------
    2) Header and Navigation
 ------------------------------ */
-/* Fixed header extends full width */
 .site-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: #444;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.5vw 2vw;
+  padding: 2.5vw 2vw;
   z-index: 1000;
 }
 
-/* Container for header content arranged vertically */
+/* Align hamburger and title */
 .header-content {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
-/* Title container (golden ratio proportions) */
+/* Hamburger button: now to the left of title */
+.hamburger {
+  width: 3vw;
+  height: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-right: 2vw; /* Space between menu and title */
+}
+
+.hamburger span {
+  display: block;
+  height: 0.3vw;
+  width: 100%;
+  background: #fff;
+  transition: 0.4s;
+}
+
+/* Smooth Animation: Hamburger → X */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(0.5vw, 0.5vw);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(0.5vw, -0.5vw);
+}
+
+/* Title Container: Lowered, API Right-Aligned */
 .title-container-navbar {
-  height: 8vw; /* Adjusted for a smaller, elegant scale */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  margin-top: 5vw; /* Lowered */
 }
 
 .title-container-navbar .title-top {
-  font-size: 5vw; /* Reduced size */
-  line-height: 1;
-  letter-spacing: 0.5vw; /* Looser letter spacing */
+  font-size: 5vw;
+  letter-spacing: 0.5vw;
   font-weight: bold;
-  margin: 0;
 }
 
 .title-container-navbar .title-bottom {
-  font-size: 3vw; /* Reduced size */
-  line-height: 1;
-  font-weight: bold;
-  margin: 0;
+  font-size: 3vw;
+  text-align: right; /* Align API text to right */
+  width: 100%;
 }
 
-/* Equalizer positioned immediately below the title container */
+/* Equalizer Positioned Below Title */
 .equalizer-navbar {
+  margin-top: 1vw;
   height: 3vw;
   display: flex;
   align-items: center;
-  margin-top: 0.5vw;
 }
 
 .equalizer-navbar .equalizer-row {
@@ -99,55 +123,19 @@ body::before {
   width: 0.5vw;
   height: 100%;
   background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
-  background-size: 200% 100%;
   border-radius: 0.25vw;
   transform: scaleY(0.4);
-  transform-origin: center;
   animation: barAnim 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
 }
 
-/* Hamburger container (below equalizer) */
-.hamburger-container {
-  margin-top: 0.5vw;
-  display: flex;
-  align-items: center;
-}
-
-/* Hamburger button: now simple (no line morphing) */
-.hamburger {
-  width: 3vw;
-  height: 3vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.hamburger span {
-  display: block;
-  height: 0.3vw;
-  width: 100%;
-  background: #fff;
-  transition: opacity 0.4s ease;
-}
-
-/* Close button (for when nav is open) */
-.close-btn {
-  font-size: 3vw;
-  color: #fff;
-  cursor: pointer;
-  display: none;
-  user-select: none;
-}
-
-/* Slide-out navigation menu */
+/* Slide-Out Navigation Menu */
 .nav-menu {
   position: fixed;
-  top: 13vw; /* Header height (approx.) */
+  top: 15vw; /* Below header */
   left: -100%;
   width: 60%;
   max-width: 280px;
-  height: calc(100vh - 13vw);
+  height: calc(100vh - 15vw);
   background: #222;
   padding-top: 1em;
   transition: left 0.3s ease;
@@ -175,9 +163,9 @@ body::before {
    3) Main Content and Tagline
 ------------------------------ */
 .safe-area {
-  margin-top: 13vw; /* Push content below header */
+  margin-top: 15vw;
   position: relative;
-  min-height: calc(100vh - 13vw);
+  min-height: calc(100vh - 15vw);
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
   z-index: 1;
@@ -191,7 +179,7 @@ body::before {
   text-align: center;
 }
 
-/* Tagline centered in main content */
+/* Tagline Centered */
 .tagline {
   font-size: 3vw;
   color: #fff;
@@ -216,33 +204,4 @@ body::before {
 @keyframes shimmerFlow {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-/* ------------------------------
-   5) Media Query for Large Screens
------------------------------- */
-@media (min-width: 1600px) {
-  .title-container-navbar .title-top {
-    font-size: 8rem;
-  }
-  .title-container-navbar .title-bottom {
-    font-size: 4.8rem;
-  }
-  .equalizer-navbar .eq-bar {
-    width: 0.7vw;
-  }
-  .hamburger {
-    width: 2.5vw;
-    height: 2.5vw;
-  }
-  .hamburger span {
-    height: 0.25vw;
-  }
-  .nav-menu {
-    width: 40%;
-    max-width: 320px;
-  }
-  .tagline {
-    font-size: 2.5rem;
-  }
 }
