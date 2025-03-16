@@ -8,15 +8,15 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fixed header: extends to top, left, and right edges -->
+  <!-- Fixed header extending edge-to-edge -->
   <header class="site-header">
     <div class="header-content">
-      <!-- Title container: uses golden ratio proportions; looser letterspacing -->
+      <!-- Title container (golden ratio proportions) -->
       <div class="title-container-navbar">
         <h1 class="title-top">TOURMANAGER</h1>
         <h2 class="title-bottom">API</h2>
       </div>
-      <!-- Equalizer placed immediately below the title container -->
+      <!-- Equalizer below title container -->
       <div class="equalizer-navbar">
         <div class="equalizer-row">
           <div class="eq-bar"></div>
@@ -27,12 +27,15 @@
           <div class="eq-bar"></div>
         </div>
       </div>
-      <!-- Hamburger menu button placed below the equalizer -->
+      <!-- Hamburger/Close toggle below equalizer -->
       <div class="hamburger-container">
         <div class="hamburger" id="hamburger">
           <span></span>
           <span></span>
           <span></span>
+        </div>
+        <div class="close-btn" id="closeBtn">
+          &#10005;
         </div>
       </div>
     </div>
@@ -45,7 +48,7 @@
     <!-- Additional links can be added here -->
   </nav>
 
-  <!-- Main content area (pushed down by the fixed header) -->
+  <!-- Main content area (pushed down by the header) -->
   <main class="safe-area">
     <div class="main-content">
       <div class="tagline" id="tagline">
@@ -55,19 +58,31 @@
   </main>
 
   <script>
-    // When the page loads, show the tagline after a 2-second delay.
+    // Fade in the tagline after a 2-second delay.
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
       }, 2000);
     });
 
-    // Toggle the hamburger menu.
+    // Toggle hamburger/close icons and slide-out nav menu.
     const hamburger = document.getElementById('hamburger');
+    const closeBtn  = document.getElementById('closeBtn');
     const navMenu   = document.getElementById('navMenu');
+
+    // Initially show the hamburger and hide the close icon.
+    closeBtn.style.display = "none";
+
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active'); // animate the hamburger lines into an "X"
-      navMenu.classList.toggle('open');     // slide the menu in/out
+      hamburger.style.display = "none";
+      closeBtn.style.display = "block";
+      navMenu.classList.add('open');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      closeBtn.style.display = "none";
+      hamburger.style.display = "flex";
+      navMenu.classList.remove('open');
     });
   </script>
 </body>
