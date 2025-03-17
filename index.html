@@ -15,7 +15,7 @@
       background: #444; /* primary color theme */
       color: #fff;
       text-transform: uppercase;
-      position: relative; /* so we can place a noise overlay via ::before */
+      position: relative;
     }
 
     /* Extremely subtle repeating radial gradient for noise effect */
@@ -31,8 +31,8 @@
         transparent 100%
       );
       background-size: 3px 3px;
-      opacity: 0.02; /* Adjust to taste (0.02–0.05) */
-      z-index: 0; /* behind all content */
+      opacity: 0.02;
+      z-index: 0;
     }
 
     /* Navigation Menu - Hamburger Style */
@@ -103,16 +103,16 @@
       transform: translateY(-0.9vw) rotate(-45deg);
     }
 
-    /* Safe-area container for iOS dynamic viewport */
+    /* Safe-area container */
     .safe-area {
       position: relative;
       height: 100dvh;
       padding: env(safe-area-inset-top) env(safe-area-inset-right)
                env(safe-area-inset-bottom) env(safe-area-inset-left);
-      z-index: 1; /* content above noise overlay */
+      z-index: 1;
     }
 
-    /* Existing layout remains unchanged */
+    /* Logo row */
     .logo-row {
       position: absolute;
       top: 61.8%;
@@ -178,7 +178,7 @@
       transform-origin: center;
     }
 
-    /* EQ bar animations restored */
+    /* Restored EQ bar animations (fully functional) */
     .eq-bar:nth-child(1) { animation: barAnim1 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite; }
     .eq-bar:nth-child(2) { animation: barAnim2 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite; }
     .eq-bar:nth-child(3) { animation: barAnim3 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite; }
