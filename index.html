@@ -15,7 +15,7 @@
       background: #444; /* primary color theme */
       color: #fff;
       text-transform: uppercase;
-      position: relative; /* so we can place a noise overlay via ::before */
+      position: relative;
     }
 
     /* Extremely subtle repeating radial gradient for noise effect */
@@ -103,7 +103,7 @@
       transform: translateY(-0.9vw) rotate(-45deg);
     }
 
-    /* Safe-area container for iOS dynamic viewport */
+    /* Safe-area container */
     .safe-area {
       position: relative;
       height: 100dvh;
@@ -112,7 +112,7 @@
       z-index: 1;
     }
 
-    /* Existing unchanged layout styles */
+    /* Logo row */
     .logo-row {
       position: absolute;
       top: 61.8%;
@@ -178,36 +178,29 @@
       transform-origin: center;
     }
 
-    /* Existing unchanged tagline */
-    .tagline {
-      position: absolute;
-      top: 38.2%;
-      right: 6.18%;
-      width: 80%;
-      font-size: 3.82vw;
-      font-weight: normal;
-      line-height: 1.2;
-      text-transform: lowercase;
-      letter-spacing: 0.2em;
-      text-align: right;
-      color: transparent;
-      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
-      background-size: 200% 100%;
-      background-clip: text;
-      -webkit-background-clip: text;
-      opacity: 0;
-      visibility: hidden;
-      white-space: nowrap;
+    /* Restored EQ bar animations */
+    .eq-bar:nth-child(1) {
+      animation: barAnim1 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
 
-    .tagline.visible {
-      visibility: visible;
-      animation: fadeInTagline 1.5s ease-in forwards, shimmerFlowTagline 6.5s linear -1.5s infinite;
+    .eq-bar:nth-child(2) {
+      animation: barAnim2 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
 
-    @keyframes fadeInTagline {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
+    .eq-bar:nth-child(3) {
+      animation: barAnim3 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+    }
+
+    .eq-bar:nth-child(4) {
+      animation: barAnim4 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+    }
+
+    .eq-bar:nth-child(5) {
+      animation: barAnim5 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
+    }
+
+    .eq-bar:nth-child(6) {
+      animation: barAnim6 3.25s ease-in-out infinite, shimmerFlow 2s linear infinite;
     }
 
   </style>
