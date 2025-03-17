@@ -8,17 +8,17 @@
   />
   <title>TourManagerAPI</title>
   <style>
-    /* Base styling */
+    /* Base styling with subtle noise overlay */
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
-      background: #444;
+      background: #444; /* primary color theme */
       color: #fff;
       text-transform: uppercase;
-      position: relative;
+      position: relative; /* so we can place a noise overlay via ::before */
     }
 
-    /* Subtle noise overlay */
+    /* Extremely subtle repeating radial gradient for noise effect */
     body::before {
       content: "";
       pointer-events: none;
@@ -35,8 +35,8 @@
       z-index: 0;
     }
 
-    /* Hamburger menu styles */
-    .menu-container {
+    /* Hamburger Menu */
+    .menu {
       position: absolute;
       top: 10px;
       left: 10px;
@@ -44,19 +44,19 @@
     }
 
     .menu-button {
-      width: 3vw; /* Size scales with screen */
+      width: 3vw;
       height: 3vw;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
-      background: transparent;
+      justify-content: space-between;
+      background: none;
       border: none;
       cursor: pointer;
       padding: 0;
     }
 
     .menu-button div {
-      width: 100%;
+      width: 3vw;
       height: 0.4vw;
       background: #fff;
       border-radius: 2px;
@@ -64,13 +64,13 @@
     }
 
     .menu-content {
+      display: none;
       position: absolute;
       top: 4vw;
       left: 0;
       background: rgba(0, 0, 0, 0.8);
       padding: 1vw;
       border-radius: 0.5vw;
-      display: none;
     }
 
     .menu-content a {
@@ -78,6 +78,7 @@
       text-decoration: none;
       font-size: 1.5vw;
       display: block;
+      padding: 0.5vw;
       transition: opacity 0.3s ease-in-out;
     }
 
@@ -86,23 +87,23 @@
     }
 
     /* Active menu state */
-    .menu-container.active .menu-content {
+    .menu.active .menu-content {
       display: block;
     }
 
-    .menu-container.active .menu-button div:nth-child(1) {
+    .menu.active .menu-button div:nth-child(1) {
       transform: translateY(0.9vw) rotate(45deg);
     }
 
-    .menu-container.active .menu-button div:nth-child(2) {
+    .menu.active .menu-button div:nth-child(2) {
       opacity: 0;
     }
 
-    .menu-container.active .menu-button div:nth-child(3) {
+    .menu.active .menu-button div:nth-child(3) {
       transform: translateY(-0.9vw) rotate(-45deg);
     }
 
-    /* Safe-area container */
+    /* Safe-area container for iOS dynamic viewport */
     .safe-area {
       position: relative;
       height: 100dvh;
@@ -111,12 +112,110 @@
       z-index: 1;
     }
 
+    /* Existing unchanged layout styles */
+    .logo-row {
+      position: absolute;
+      top: 61.8%;
+      right: 6.18%;
+      display: flex;
+      align-items: flex-end;
+      gap: 2vw;
+      opacity: 0;
+      animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
+    }
+
+    @keyframes fadeLogoIn {
+      to { opacity: 1; }
+    }
+
+    .title-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      height: 13vw;
+    }
+
+    .title-top {
+      font-size: 8vw;
+      line-height: 1;
+      letter-spacing: -1px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .title-bottom {
+      font-size: 5vw;
+      line-height: 1;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .equalizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 13vw;
+    }
+
+    .equalizer-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1vw;
+      overflow: visible;
+      height: 100%;
+    }
+
+    .eq-bar {
+      position: relative;
+      width: 1vw;
+      height: 100%;
+      background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
+      background-size: 200% 100%;
+      border-radius: 0.5vw;
+      transform: scaleY(0.4);
+      transform-origin: center;
+    }
+
+    /* Existing unchanged tagline */
+    .tagline {
+      position: absolute;
+      top: 38.2%;
+      right: 6.18%;
+      width: 80%;
+      font-size: 3.82vw;
+      font-weight: normal;
+      line-height: 1.2;
+      text-transform: lowercase;
+      letter-spacing: 0.2em;
+      text-align: right;
+      color: transparent;
+      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      opacity: 0;
+      visibility: hidden;
+      white-space: nowrap;
+    }
+
+    .tagline.visible {
+      visibility: visible;
+      animation: fadeInTagline 1.5s ease-in forwards, shimmerFlowTagline 6.5s linear -1.5s infinite;
+    }
+
+    @keyframes fadeInTagline {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- Hamburger menu -->
-  <div class="menu-container">
+  <!-- Navigation (Hamburger Menu) -->
+  <div class="menu">
     <button class="menu-button" aria-label="Menu">
       <div></div>
       <div></div>
@@ -145,20 +244,13 @@
         </div>
       </div>
     </div>
-
-    <!-- Tagline -->
-    <div class="tagline" id="tagline">
-      orchestrating concert data
-    </div>
   </div>
 
   <script>
-    // Toggle menu visibility
     document.querySelector(".menu-button").addEventListener("click", function () {
-      document.querySelector(".menu-container").classList.toggle("active");
+      document.querySelector(".menu").classList.toggle("active");
     });
 
-    // Show tagline after logo fade-in
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
