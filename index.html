@@ -8,16 +8,17 @@
   />
   <title>TourManagerAPI</title>
   <style>
-    /* Base styling with subtle noise overlay */
+    /* Base styling */
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
-      background: #444; /* primary color theme */
+      background: #444;
       color: #fff;
       text-transform: uppercase;
-      position: relative; /* so we can place a noise overlay via ::before */
+      position: relative;
     }
-    /* Extremely subtle repeating radial gradient for noise effect */
+
+    /* Subtle noise overlay */
     body::before {
       content: "";
       pointer-events: none;
@@ -30,238 +31,104 @@
         transparent 100%
       );
       background-size: 3px 3px;
-      opacity: 0.02; /* Adjust to taste (0.02–0.05) */
-      z-index: 0; /* behind all content */
+      opacity: 0.02;
+      z-index: 0;
     }
-    /* Navigation link in the upper left-hand corner */
-    nav {
+
+    /* Hamburger menu styles */
+    .menu-container {
       position: absolute;
       top: 10px;
       left: 10px;
-      font-size: 1.5vw;
-      z-index: 2; /* above noise overlay */
+      z-index: 2;
     }
-    nav a {
+
+    .menu-button {
+      width: 3vw; /* Size scales with screen */
+      height: 3vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .menu-button div {
+      width: 100%;
+      height: 0.4vw;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+
+    .menu-content {
+      position: absolute;
+      top: 4vw;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1vw;
+      border-radius: 0.5vw;
+      display: none;
+    }
+
+    .menu-content a {
       color: #fff;
-      text-decoration: underline;
+      text-decoration: none;
+      font-size: 1.5vw;
+      display: block;
+      transition: opacity 0.3s ease-in-out;
     }
-    /* Safe-area container for iOS dynamic viewport */
+
+    .menu-content a:hover {
+      opacity: 0.7;
+    }
+
+    /* Active menu state */
+    .menu-container.active .menu-content {
+      display: block;
+    }
+
+    .menu-container.active .menu-button div:nth-child(1) {
+      transform: translateY(0.9vw) rotate(45deg);
+    }
+
+    .menu-container.active .menu-button div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-container.active .menu-button div:nth-child(3) {
+      transform: translateY(-0.9vw) rotate(-45deg);
+    }
+
+    /* Safe-area container */
     .safe-area {
       position: relative;
       height: 100dvh;
       padding: env(safe-area-inset-top) env(safe-area-inset-right)
                env(safe-area-inset-bottom) env(safe-area-inset-left);
-      z-index: 1; /* content above noise overlay */
+      z-index: 1;
     }
-    /* Logo row: Title container + Equalizer side by side */
-    .logo-row {
-      position: absolute;
-      top: 61.8%;
-      right: 6.18%;
-      display: flex;
-      align-items: flex-end; /* align text & bars along the same baseline */
-      gap: 2vw;
-      /* Fade in from opacity 0 to 1 over 1.5s, starting at 0.5s */
-      opacity: 0;
-      animation: fadeLogoIn 1.5s ease-in forwards 0.5s;
-    }
-    @keyframes fadeLogoIn {
-      to { opacity: 1; }
-    }
-    /*
-      Title container (logo):
-      - “TourManager” => 8vw
-      - “API” => 5vw
-      => total ~13vw tall
-    */
-    .title-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-end;
-      height: 13vw; /* 8vw + 5vw lines */
-    }
-    /* Top line (TourManager) at 8vw */
-    .title-top {
-      font-size: 8vw;
-      line-height: 1;
-      letter-spacing: -1px;
-      font-weight: bold;
-      margin: 0;
-    }
-    /* Bottom line (API) at 5vw */
-    .title-bottom {
-      font-size: 5vw;
-      line-height: 1;
-      font-weight: bold;
-      margin: 0;
-    }
-    /*
-      Equalizer container:
-      - also 13vw tall to match the text block
-    */
-    .equalizer {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      height: 13vw;
-    }
-    /* Row for the 6 bars, each 1vw wide, 13vw tall total. */
-    .equalizer-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 1vw;
-      overflow: visible; /* ensure no clipping if bars scale bigger */
-      height: 100%;
-    }
-    /* Single bar that extends from center, with no seam. */
-    .eq-bar {
-      position: relative;
-      width: 1vw;
-      height: 100%;
-      background: linear-gradient(to right, #bbb 20%, #ddd 40%, #bbb 60%);
-      background-size: 200% 100%; /* For the shimmer effect */
-      border-radius: 0.5vw;
-      transform: scaleY(0.4);
-      transform-origin: center;
-    }
-    /* Each bar has 2 animations: unique scale + shimmer flow */
-    .eq-bar:nth-child(1) {
-      animation: barAnim1 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
-    }
-    .eq-bar:nth-child(2) {
-      animation: barAnim2 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
-    }
-    .eq-bar:nth-child(3) {
-      animation: barAnim3 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
-    }
-    .eq-bar:nth-child(4) {
-      animation: barAnim4 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
-    }
-    .eq-bar:nth-child(5) {
-      animation: barAnim5 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
-    }
-    .eq-bar:nth-child(6) {
-      animation: barAnim6 3.25s ease-in-out infinite,
-                 shimmerFlow 2s linear infinite;
-    }
-    /* Tagline block (unchanged) */
-    .tagline {
-      position: absolute;
-      top: 38.2%;
-      right: 6.18%;
-      width: 80%;
-      font-size: 3.82vw;
-      font-weight: normal;
-      line-height: 1.2;
-      text-transform: lowercase;
-      letter-spacing: 0.2em;
-      text-align: right;
-      color: transparent;
-      background: linear-gradient(120deg, #bbb 20%, #ddd 40%, #bbb 60%);
-      background-size: 200% 100%;
-      background-clip: text;
-      -webkit-background-clip: text;
-      opacity: 0;
-      visibility: hidden;
-      white-space: nowrap;
-    }
-    .tagline.visible {
-      visibility: visible;
-      animation:
-        fadeInTagline 1.5s ease-in forwards,
-        shimmerFlowTagline 6.5s linear -1.5s infinite;
-    }
-    @keyframes fadeInTagline {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes shimmerFlowTagline {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    /* Realistic bar scale animations for each of the 6 bars */
-    @keyframes barAnim1 {
-      0%, 100% { transform: scaleY(0.4); }
-      15%      { transform: scaleY(1.0); }
-      30%      { transform: scaleY(0.6); }
-      50%      { transform: scaleY(0.8); }
-      75%      { transform: scaleY(1.0); }
-    }
-    @keyframes barAnim2 {
-      0%, 100% { transform: scaleY(0.5); }
-      20%      { transform: scaleY(0.9); }
-      40%      { transform: scaleY(0.6); }
-      60%      { transform: scaleY(1.0); }
-      80%      { transform: scaleY(0.7); }
-    }
-    @keyframes barAnim3 {
-      0%, 100% { transform: scaleY(0.3); }
-      25%      { transform: scaleY(0.8); }
-      50%      { transform: scaleY(1.0); }
-      70%      { transform: scaleY(0.4); }
-      85%      { transform: scaleY(0.9); }
-    }
-    @keyframes barAnim4 {
-      0%, 100% { transform: scaleY(0.6); }
-      20%      { transform: scaleY(0.9); }
-      35%      { transform: scaleY(0.5); }
-      55%      { transform: scaleY(1.0); }
-      75%      { transform: scaleY(0.7); }
-    }
-    @keyframes barAnim5 {
-      0%, 100% { transform: scaleY(0.4); }
-      10%      { transform: scaleY(1.0); }
-      30%      { transform: scaleY(0.5); }
-      50%      { transform: scaleY(0.9); }
-      80%      { transform: scaleY(0.6); }
-    }
-    @keyframes barAnim6 {
-      0%, 100% { transform: scaleY(0.5); }
-      25%      { transform: scaleY(0.7); }
-      40%      { transform: scaleY(1.0); }
-      60%      { transform: scaleY(0.4); }
-      90%      { transform: scaleY(1.0); }
-    }
-    /* Shimmer flow for bar backgrounds, ~2s cycle */
-    @keyframes shimmerFlow {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    /* MEDIA QUERY for large screens:
-       Caps the font sizes so they don’t become huge on 4K monitors, etc. */
-    @media (min-width: 1600px) {
-      .title-top {
-        font-size: 12rem; /* or some max cap you prefer */
-      }
-      .title-bottom {
-        font-size: 7.5rem; /* maintain ~8:5 ratio => 12:7.5 */
-      }
-      .title-container {
-        height: calc(12rem + 7.5rem); /* total 19.5rem */
-      }
-      .equalizer {
-        height: 19.5rem;
-      }
-      .eq-bar {
-        width: 1.5rem; /* scale bar width up a bit */
-      }
-    }
+
   </style>
 </head>
 <body>
-  <!-- Navigation link in upper left-hand corner -->
-  <nav>
-    <a href="docs.html">API Documentation</a>
-  </nav>
+
+  <!-- Hamburger menu -->
+  <div class="menu-container">
+    <button class="menu-button" aria-label="Menu">
+      <div></div>
+      <div></div>
+      <div></div>
+    </button>
+    <div class="menu-content">
+      <a href="docs.html">API Documentation</a>
+    </div>
+  </div>
+
   <div class="safe-area">
-    <!-- Logo row: fade in first, then tagline appears -->
+    <!-- Logo row -->
     <div class="logo-row">
       <div class="title-container">
         <h1 class="title-top">TourManager</h1>
@@ -278,19 +145,26 @@
         </div>
       </div>
     </div>
-    <!-- Tagline (appears after logo fade-in) -->
+
+    <!-- Tagline -->
     <div class="tagline" id="tagline">
       orchestrating concert data
     </div>
   </div>
+
   <script>
-    // On page load, fade in the logo row (handled by CSS animation).
-    // Then show the tagline after the logo fade completes (~2s).
+    // Toggle menu visibility
+    document.querySelector(".menu-button").addEventListener("click", function () {
+      document.querySelector(".menu-container").classList.toggle("active");
+    });
+
+    // Show tagline after logo fade-in
     window.addEventListener("load", () => {
       setTimeout(() => {
         document.getElementById("tagline").classList.add("visible");
-      }, 2000); 
+      }, 2000);
     });
   </script>
+
 </body>
 </html>
